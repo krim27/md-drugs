@@ -70,7 +70,7 @@
     cokestagetwo 		 	 	 = {name = "cokestagetwo",           			label = "Better Raw Cocaine", 			weight = 100,		type = "item", 		image = "cokestagetwo.png", 			unique = false, 	useable = false, 	shouldClose = false,   combinable = nil,   description = "Raw cocaine"},
     cokestagethree 		 	 	 = {name = "cokestagethree",           			label = "Best Raw Cocaine", 			weight = 100,		type = "item", 		image = "cokestagethree.png", 			unique = false, 	useable = false, 	shouldClose = false,   combinable = nil,   description = "Raw cocaine"},
      
-     ----md-lsd
+    ----md-lsd
     lysergic_acid 			 	 = {name = 'lysergic_acid', 			  		label = 'Lysergic Acid', 				weight = 100, 		type = 'item', 		image = 'lysergic_acid.png', 			unique = false, 	useable = false, 	shouldClose = true,	   combinable = nil, 	description = 'Acid to make acid?'},
     diethylamide 			 	 = {name = 'diethylamide', 			  			label = 'Diethylamide', 				weight = 100, 		type = 'item', 		image = 'diethylamide.png', 			unique = false, 	useable = false, 	shouldClose = true,	   combinable = nil, 	description = 'die? I sure hope not!'},
     lsd_one_vial 			 	 = {name = 'lsd_one_vial', 			  			label = 'Tier 1 LSD Vial', 			    weight = 100, 		type = 'item', 		image = 'lsd_one_vial.png', 			unique = false, 	useable = false, 	shouldClose = true,	   combinable = nil, 	description = 'Vial Of LSD'},

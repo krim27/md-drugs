@@ -19,10 +19,24 @@ RegisterNetEvent('shrooms:respawnCane', function(loc)
         SetEntityAsMissionEntity(shrooms[loc], true, true)
         FreezeEntityPosition(shrooms[loc], true)
         SetEntityHeading(shrooms[loc], v.heading)
-        exports['qb-target']:AddTargetEntity(shrooms[loc], {
-            options = { { icon = "fas fa-hand", label = "pick shrooms", action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end  TriggerServerEvent("shrooms:pickupCane", loc) end }
-        },
-        distance = 3.0
+        exports.interact:AddEntityInteraction({
+            netId = shrooms[loc],
+            name = 'pickshrooms', -- optional
+            id = 'pickshrooms', -- needed for removing interactions
+            distance = 2.0, -- optional
+            interactDst = 1.0, -- optional
+            ignoreLos = false, -- optional ignores line of sight
+            offset = vec3(0.0, 0.0, 0.0), -- optional
+            options = {
+                {
+                    label = 'pick shrooms',
+                    action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end  TriggerServerEvent("shrooms:pickupCane", loc) end,
+                    canInteract = function ()
+                        local item = QBCore.Functions.HasItem('trowel')
+                        return item
+                    end
+                },
+            }
         })
     end
 end)
@@ -66,10 +80,24 @@ end)
             SetEntityAsMissionEntity(shrooms[k], true, true)
             FreezeEntityPosition(shrooms[k], true)
             SetEntityHeading(shrooms[k], v.heading)
-            exports['qb-target']:AddTargetEntity(shrooms[k], {
-                options = { { icon = "fas fa-hand", label = "Pick shrooms", action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end     TriggerServerEvent("shrooms:pickupCane", k) end }
-            },
-            distance = 3.0
+            exports.interact:AddEntityInteraction({
+                netId = shrooms[k],
+                name = 'pickshrooms', -- optional
+                id = 'pickshrooms', -- needed for removing interactions
+                distance = 2.0, -- optional
+                interactDst = 2.0, -- optional
+                ignoreLos = true, -- optional ignores line of sight
+                offset = vec3(0.0, 0.0, 0.0), -- optional
+                options = {
+                    {
+                        label = 'pick shrooms',
+                        action = function() if not progressbar(Lang.Shrooms.pick, 4000, 'uncuff') then return end  TriggerServerEvent("shrooms:pickupCane", k) end,
+                        canInteract = function ()
+                            local item = QBCore.Functions.HasItem('trowel')
+                            return item
+                        end
+                    },
+                }
             })
         end
     end

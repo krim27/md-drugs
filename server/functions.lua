@@ -5,7 +5,7 @@ function Notifys(text, type)
     if notify == 'qb' then
         TriggerClientEvent("QBCore:Notify", source, text, type)
     elseif notify == 'ox' then
-        lib.notify(source, { title = text, type = type})
+        lib.notify(source, { title = text, type = type, position = 'bottom'})
     elseif notify == 'okok' then
         TriggerClientEvent('okokNotify:Alert', source, '', text, 4000, type, false)
     else
@@ -29,7 +29,7 @@ end
 function CheckDist(source,Player, coords)
     local pcoords = GetEntityCoords(Player)
     local ok 
-    if #(pcoords - coords) < 4.0 then
+    if #(pcoords - coords) < 3.0 then
         return ok
     else    
         DropPlayer(source, 'Too Far') return  end

@@ -91,7 +91,7 @@ end)
 RegisterServerEvent('md-drugs:server:bagcoke', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-	if not Itemcheck(Player, 'empty_weed_bag', 1, 'true') then return end
+	if not Itemcheck(Player, 'empty_coke_bag', 1, 'true') then return end
 	if Config.TierSystem then
 		local coke = Player.PlayerData.metadata['coke']
 		local locoke = Player.Functions.GetItemByName('loosecoke')
@@ -99,17 +99,17 @@ RegisterServerEvent('md-drugs:server:bagcoke', function()
 		local locoke3 = Player.Functions.GetItemByName('loosecokestagethree')
 		if locoke then
 			RemoveItem('loosecoke', 1 ) 
-			RemoveItem('empty_weed_bag', 1) 
+			RemoveItem('empty_coke_bag', 1) 
 			AddItem('cokebaggy', 1) 
 			Player.Functions.SetMetaData('coke',  (coke + 1))
 		elseif locoke2 then
 			RemoveItem('loosecokestagetwo', 1 ) 
-			RemoveItem('empty_weed_bag', 1) 
+			RemoveItem('empty_coke_bag', 1) 
 			AddItem('cokebaggystagetwo', 1) 
 			Player.Functions.SetMetaData('coke',  (coke + 1))
 		elseif locoke3 then
 			RemoveItem('loosecokestagethree', 1 ) 
-			RemoveItem('empty_weed_bag', 1) 
+			RemoveItem('empty_coke_bag', 1) 
 			AddItem('cokebaggystagethree', 1)
 			Player.Functions.SetMetaData('coke',  (coke + 1))
 		else
@@ -117,7 +117,7 @@ RegisterServerEvent('md-drugs:server:bagcoke', function()
 		end
 	else
 		if RemoveItem('loosecoke', 1 ) then
-			RemoveItem('empty_weed_bag', 1) 
+			RemoveItem('empty_coke_bag', 1) 
 			AddItem('cokebaggy', 1) 
 		else
 			Notifys(Lang.Coke.nobagcoke, "error")

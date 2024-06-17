@@ -18,11 +18,22 @@ local Ped = "g_m_y_famdnf_01"
 	local tabdealer = CreatePed(0, Ped,Config.buylsdlabkit.x,Config.buylsdlabkit.y,Config.buylsdlabkit.z-1, Config.buylsdlabkit.w, false, false)
     FreezeEntityPosition(tabdealer, true)
     SetEntityInvincible(tabdealer, true)
+    SetBlockingOfNonTemporaryEvents(tabdealer, true)
     local options = {
         { type = "client", label = "Buy LSD Lab Kit", icon = "fas fa-eye", event = "md-drugs:client:buylabkit", distance = 2.0}
      }
     if Config.oxtarget then
-        exports.ox_target:addLocalEntity(tabdealer, options)
+        exports.interact:AddLocalEntityInteraction({
+            entity = tabdealer,
+            name = 'tabdealer', -- optional
+            id = 'tabdealer', -- needed for removing interactions
+            distance = 4.0, -- optional
+            interactDst = 1.0, -- optional
+            ignoreLos = false, -- optional ignores line of sight
+            offset = vec3(0.0, 0.0, 0.0), -- optional
+            options = options
+        })
+        --exports.ox_target:addLocalEntity(tabdealer, options)
     else 
 	    exports['qb-target']:AddTargetEntity(tabdealer, {options = options, distance = 2.0})
     end    
@@ -42,31 +53,187 @@ RegisterNetEvent("md-drugs:client:getdiethylamide", function(data)
     TriggerServerEvent('md-drugs:server:getdiethylamide', data.data)
 end)
 
+local previewObject = nil
+local rotation = 0.0
+
+-- Function to perform a raycast from the player's camera
+function RaycastFromCamera(distance)
+    local playerPed = PlayerPedId()
+    local playerCoords = GetEntityCoords(playerPed)
+    local cameraRot = GetGameplayCamRot(2)
+    local cameraCoords = GetGameplayCamCoord()
+    local direction = RotationToDirection(cameraRot)
+    local destination = vector3(cameraCoords.x + direction.x * distance, cameraCoords.y + direction.y * distance, cameraCoords.z + direction.z * distance)
+
+    local rayHandle = StartShapeTestRay(cameraCoords.x, cameraCoords.y, cameraCoords.z, destination.x, destination.y, destination.z, -1, playerPed, 0)
+    local _, hit, hitCoords, _, _ = GetShapeTestResult(rayHandle)
+
+    return hit, hitCoords
+end
+
+-- Function to convert rotation to direction vector
+function RotationToDirection(rotation)
+    local adjustedRotation = { x = math.rad(rotation.x), y = math.rad(rotation.y), z = math.rad(rotation.z) }
+    local direction = {
+        x = -math.sin(adjustedRotation.z) * math.abs(math.cos(adjustedRotation.x)),
+        y = math.cos(adjustedRotation.z) * math.abs(math.cos(adjustedRotation.x)),
+        z = math.sin(adjustedRotation.x)
+    }
+    return direction
+end
+
+-- Function to create and return a preview object
+function CreatePreviewObject(modelName, coords)
+    local modelHash = GetHashKey(modelName)
+    RequestModel(modelHash)
+    while not HasModelLoaded(modelHash) do
+        Wait(1)
+    end
+    local previewObj = CreateObject(modelHash, coords.x, coords.y, coords.z, false, false, false)
+    SetEntityAlpha(previewObj, 150, false)
+    SetEntityCollision(previewObj, false, false)
+    PlaceObjectOnGroundProperly(previewObj)
+    return previewObj
+end
+
+-- Function to delete an object
+function DeleteObject(obj)
+    if DoesEntityExist(obj) then
+        DeleteEntity(obj)
+    end
+end
+
+-- Register the event for setting the LSD lab kit
 RegisterNetEvent("md-drugs:client:setlsdlabkit")
 AddEventHandler("md-drugs:client:setlsdlabkit", function()
-if tableout then 
-    Notify(Lang.lsd.tableout, 'error')
-    TriggerServerEvent('md-drugs:server:getlabkitback')
-else
+    if tableout then 
+        Notify(Lang.lsd.tableout, 'error')
+        TriggerServerEvent('md-drugs:server:getlabkitback')
+        return
+    end
+
     tableout = true
-    local PedCoords = GetEntityCoords(PlayerPedId())
-	if not progressbar(Lang.lsd.place, 4000, 'uncuff') then TriggerServerEvent('md-drugs:server:getlabkitback') return end
-	local labkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
-    PlaceObjectOnGroundProperly(labkit)
-	
-    local options = {
-        { event = "md-drugs:client:heatliquid", icon = "fas fa-box-circle-check", label = "Heat Liquid" ,    data = labkit, },
-        { event = "md-drugs:client:refinequalityacid", icon = "fas fa-box-circle-check", label = "Refine",   data = labkit, },
-		{ event = "md-drugs:client:maketabpaper", icon = "fas fa-box-circle-check", label = "Dab Sheets",    data = labkit, },
-		{ event = "md-drugs:client:getlabkitback", icon = "fas fa-box-circle-check", label = "Pick Up",      data = labkit, canInteract = function() if tableout then return true end end},
-    }
-    if Config.oxtarget then
-        exports.ox_target:addLocalEntity(labkit, options)
-    else
-	    exports['qb-target']:AddTargetEntity(labkit, {options = options})
-    end    
-end
+
+    -- Start the placement process
+    Citizen.CreateThread(function()
+        while true do
+            Citizen.Wait(0)
+
+            -- Perform raycast from camera to get hit coordinates
+            local hit, hitCoords = RaycastFromCamera(10.0) -- Adjust distance as needed
+
+            -- Update or create the preview object based on raycast
+            if hit then
+                if not previewObject then
+                    previewObject = CreatePreviewObject("v_ret_ml_tablea", hitCoords)
+                else
+                    SetEntityCoords(previewObject, hitCoords.x, hitCoords.y, hitCoords.z, false, false, false, true)
+                    SetEntityHeading(previewObject, rotation)
+                    PlaceObjectOnGroundProperly(previewObject)
+                end
+            end
+
+            -- Rotate the object with the scroll wheel
+            if IsControlJustPressed(0, 241) then -- Scroll wheel up
+                rotation = rotation + 5.0
+                if rotation >= 360.0 then rotation = 0.0 end
+                if previewObject then
+                    SetEntityHeading(previewObject, rotation)
+                end
+            elseif IsControlJustPressed(0, 242) then -- Scroll wheel down
+                rotation = rotation - 5.0
+                if rotation < 0.0 then rotation = 355.0 end
+                if previewObject then
+                    SetEntityHeading(previewObject, rotation)
+                end
+            end
+
+            -- Check for key press (E) to place the object
+            if IsControlJustReleased(0, 38) then -- E key
+                if hit then
+                    -- Place the actual lab kit object
+                    local labkit = CreateObject("v_ret_ml_tablea", hitCoords.x, hitCoords.y, hitCoords.z, true, true, true)
+                    SetEntityHeading(labkit, rotation)
+                    PlaceObjectOnGroundProperly(labkit)
+
+                    -- Set interaction options
+                    local options = {
+                        {
+                            event = "md-drugs:client:heatliquid",
+                            icon = "fa-solid fa-fire-flame-curved",
+                            label = "Heat Liquid",
+                            data = labkit,
+                            canInteract = function()
+                                local item1 = QBCore.Functions.HasItem('diethylamide')
+                                local item2 = QBCore.Functions.HasItem('lysergic_acid')
+                                return item1 and item2
+                            end
+                        },
+                        {
+                            event = "md-drugs:client:refinequalityacid",
+                            icon = "fa-solid fa-flask",
+                            label = "Refine",
+                            data = labkit,
+                            canInteract = function()
+                                local item1 = QBCore.Functions.HasItem('lsd_one_vial')
+                                return item1
+                            end
+                        },
+                        {
+                            event = "md-drugs:client:maketabpaper",
+                            icon = "fa-solid fa-sheet-plastic",
+                            label = "Dab Sheets",
+                            data = labkit,
+                            canInteract = function()
+                                local item1 = QBCore.Functions.HasItem('tab_paper')
+                                return item1
+                            end
+                        },
+                        {
+                            event = "md-drugs:client:getlabkitback",
+                            icon = "fa-solid fa-hand",
+                            label = "Pick Up",
+                            data = labkit,
+                            canInteract = function()
+                                return not tableout
+                            end
+                        },
+                    }
+
+                    -- Add interaction options to the target system
+                    if Config.oxtarget then
+                        exports.ox_target:addLocalEntity(labkit, options)
+                    else
+                        exports['qb-target']:AddTargetEntity(labkit, { options = options })
+                    end
+
+                    -- Delete the preview object
+                    DeleteObject(previewObject)
+                    previewObject = nil
+
+                    -- Exit the placement loop
+                    break
+                else
+                    -- Notify the player if no valid surface was detected
+                    Notify("No valid surface detected!", 'error')
+                end
+            end
+
+            -- Check for key press (X) to cancel placement
+            if IsControlJustReleased(0, 73) then -- X key
+                if previewObject then
+                    DeleteObject(previewObject)
+                    previewObject = nil
+                    TriggerServerEvent('md-drugs:server:getlabkitback')
+                end
+                break
+            end
+        end
+
+        tableout = false
+    end)
 end)
+
 
 RegisterNetEvent("md-drugs:client:getlabkitback", function(data) 
     if not progressbar(Lang.lsd.tablepack, 4000, 'uncuff') then return end
@@ -83,13 +250,21 @@ RegisterNetEvent("md-drugs:client:heatliquid", function(data)
 	if not minigame(2, 8) then
         TriggerServerEvent("md-drugs:server:failheating")
 		DeleteObject(data.data)
-		local dirtylabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
+		local dirtylabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, true,true)
 		loadParticle(dict)
 	    exitPtfx = StartParticleFxLoopedOnEntity("scr_dst_cocaine", dirtylabkit, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
 		PlaceObjectOnGroundProperly(dirtylabkit)
         SetParticleFxLoopedAlpha(exitPtfx, 3.0)
 		local options = {
-            { event = "md-drugs:client:cleanlabkit", icon = "fas fa-box-circle-check", label = "Clean It", data = dirtylabkit },
+            { event = "md-drugs:client:cleanlabkit", icon = "fas fa-box-circle-check", label = "Clean It", data = dirtylabkit, canInteract = function()
+                local item1 = QBCore.Functions.HasItem('cleaningkit')
+                
+                if item1 then
+                    return true
+                else
+                    return false
+                end
+            end},
         }
         if Config.oxtarget then
             exports.ox_target:addLocalEntity(dirtylabkit, options)

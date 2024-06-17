@@ -45,24 +45,24 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
     local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
 	if CheckDist(source, playerPed, Config.bagcrack[num]['loc']) then  return end
-	if not Itemcheck(Player, 'empty_weed_bag', 1, 'true') then return end
+	if not Itemcheck(Player, 'empty_crack_bag', 1, 'true') then return end
 	if Config.TierSystem then
 		local rock = Player.Functions.GetItemByName('crackrock')
 		local rock2 = Player.Functions.GetItemByName('crackrockstagetwo')
 		local rock3 = Player.Functions.GetItemByName('crackrockstagethree')
 		if rock then
 			RemoveItem('crackrock', 1 ) 
-			RemoveItem('empty_weed_bag', 1) 	
+			RemoveItem('empty_crack_bag', 1) 	
 			AddItem('baggedcracked', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
 		elseif rock2 then
 			 RemoveItem('crackrockstagetwo', 1 ) 
-			RemoveItem('empty_weed_bag', 1) 
+			RemoveItem('empty_crack_bag', 1) 
 			AddItem('baggedcrackedstagetwo', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
 		elseif rock3 then
 			RemoveItem('crackrockstagethree', 1 ) 
-			RemoveItem('empty_weed_bag', 1) 
+			RemoveItem('empty_crack_bag', 1) 
 			AddItem('baggedcrackedstagethree', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
 		else
@@ -70,7 +70,7 @@ RegisterServerEvent('md-drugs:server:bagcrack', function(num)
 		end
 	else
 		if RemoveItem('crackrock', 1 ) then
-			RemoveItem('empty_weed_bag', 1) 
+			RemoveItem('empty_crack_bag', 1) 
 			AddItem('baggedcracked', 1) 
 			Notifys(Lang.Crack.makecrack, "success")
 		else

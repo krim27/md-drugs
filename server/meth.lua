@@ -31,7 +31,7 @@ RegisterServerEvent('md-drugs:server:getmeth', function()
   local Player = QBCore.Functions.GetPlayer(src)
   local amount = math.random(1,5)
  
-  if RemoveItem("empty_weed_bag", amount) then
+  if RemoveItem("empty_meth_bag", amount) then
 		AddItem("methbags", amount)
 		Notifys("You Made " .. amount .. " Bags Of Meth!", "success")
 	else

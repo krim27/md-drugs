@@ -9,9 +9,18 @@ local current = "g_m_y_famdnf_01"
     SetEntityInvincible(travellingmerchant, true)
 	if Config.oxtarget then
 		local options = {
-			{ label = "Travelling Merchant", icon = "fas fa-eye", onSelect = function() 	lib.showContext('travellingmerchant') end},
+			{ label = "Travelling Merchant", icon = "fas fa-eye", action = function() 	lib.showContext('travellingmerchant') end},
 		}
-		exports.ox_target:addLocalEntity(travellingmerchant, options)
+		exports.interact:AddLocalEntityInteraction({
+			entity = travellingmerchant,
+			name = 'travellingmerchant', -- optional
+			id = 'travellingmerchant', -- needed for removing interactions
+			distance = 3.0, -- optional
+			interactDst = 1.0, -- optional
+			ignoreLos = false, -- optional ignores line of sight
+			offset = vec3(0.0, 0.0, 0.0), -- optional
+			options = options
+		})
 	else
 		exports['qb-target']:AddTargetEntity(travellingmerchant, { 
 			options = {

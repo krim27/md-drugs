@@ -60,7 +60,7 @@ end
 
  function Notify(text, type)
 	if notifytype =='ox' then
-	  lib.notify({title = text, type = type})
+	  lib.notify({title = text, type = type, position = 'bottom'})
     elseif notifytype == 'qb' then
 	  QBCore.Functions.Notify(text, type)
 	elseif notifytype == 'okok' then
@@ -71,9 +71,9 @@ end
   end
 
 function ItemCheck(item)
-local success 
-if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
-if QBCore.Functions.HasItem(item) then success = item return success else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') end
+	local success 
+	if QBCore.Shared.Items[item] == nil then print("There Is No " .. item .. " In Your QB Items.lua") return end
+	if QBCore.Functions.HasItem(item) then success = item return success else Notify('You Need ' .. QBCore.Shared.Items[item].label .. " !", 'error') end
 end
 
 function Email(sender, subject, message)
@@ -142,17 +142,11 @@ end
 
 function GetCops(number)
 	if number == 0 then return true end
-	local need = false
-	local nope = false
 	QBCore.Functions.TriggerCallback('md-drugs:server:GetCoppers', function(amount)
-		if amount >= number then need = true else Notify('You Need '.. number - amount .. ' More Cops To Do This', 'error') nope = true end
+		
+		if amount >= number then return amount == true else Notify('You Need '.. number - amount .. ' More Cops To Do This', 'error') end
 	end)
-	repeat 
-		Wait(100)
-	until need or nope
-	if need then return true end
 end
-
 
 function GetImage(img)
 	if GetResourceState('ox_inventory') == 'started' then

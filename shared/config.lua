@@ -1,8 +1,8 @@
 Config = {} --Ignore.
 
-Config.oxtarget = false --- turn to true if you use oxtarget
+Config.oxtarget = true --- turn to true if you use oxtarget
 Config.respawnTime = 150 -- Seconds
-Config.Fuel = "LegacyFuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
+Config.Fuel = "Renewed-Fuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
 Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
@@ -16,11 +16,11 @@ Config.progressbartype = 'oxcir' -- either 'qb', 'oxcir', 'oxbar'
 Config.minigametype = 'ox' -- either 'ps' or 'ox' or 'none'
 Config.Notify = 'ox' -- -- either 'qb' or 'ox' or 'okok'
 Config.Phone = 'qb' -- either 'qb' or 'yflip' or 'qs'
-Config.Dispatch = 'ps' -- either 'ps', 'cd', 'core', 'aty'
+Config.Dispatch = 'cd' -- either 'ps', 'cd', 'core', 'aty'
 
 ------------- you can either set a gang or leave it blank, if blank it will autopopulate data to not require it :)
 ------------- Cocaine -- new animations require to be in a certain spot or they get fucky. uses bob74 ipl if you turn Config.FancyCokeAnims you can put it anywhere :) 
-Config.FancyCokeAnims = false -- if you want multi location this needs to be false
+Config.FancyCokeAnims = true -- if you want multi location this needs to be false
 
 Config.CokeTeleIn = vector3(198.16, -1276.92, 29.33)-- where you target to go inside
 
@@ -59,24 +59,24 @@ Config.gettabs = { -- buy tab paper
     {loc = vector3(2409.59, 5012.45, 46.09), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 
-Config.buylsdlabkit = vector4(2598.47, 5033.06, 105.86, 283.51)--  buy lab kit
+Config.buylsdlabkit = vector4(2488.5676269531, 4964.6533203125, 44.719985961914, 220.44274902344)--  buy lab kit
 Config.tabcost = 100 -- price per piece of tab paper event does 10 at a time
 Config.lsdlabkitcost = 10000 -- price of the lsd lab kit
 ------------------------- Heroin Locations
 
 Config.dryplant = { -- turn resin into powder
-    {loc = vector3(-1353.77, -335.58, 43.92), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(5133.1923828125, -4616.7294921875, 2.375616312027), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 
 Config.cutheroinone = { -- cut heroin stage 1-3 with baking soda
-    {loc = vector3(-1360.14, -337.03, 43.92), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(5131.6279296875, -4612.6728515625, 2.4604970216751), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 
 Config.fillneedle = { -- fill needles with heroin
-    {loc = vector3(-1366.32, -334.40, 44.44), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(5136.3349609375, -4613.8120117188, 2.4586030244827), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 
-Config.buyheroinlabkit = vector4(-1358.77, -339.12, 43.92, 302.13) -- buy heroin lab kit
+Config.buyheroinlabkit = vector4(3304.3352050781, 5184.7763671875, 19.71141242981, 68.878273010254) -- buy heroin lab kit
 Config.heroinlabkitprice = 10000 -- price of the lsd lab kit
 
 ------------ XTC
@@ -126,7 +126,7 @@ Config.PharmaJob = "ems" -- what TYPE role you need to be on to get the command
 Config.Teleout = vector3(1066.31, -3183.36, -39.16) -- where you target to tele in
 Config.Telein = vector3(244.74, 374.54, 105.74) -- where you target to tele out
 Config.MakeButter = vector3(1045.48, -3198.49, -38.22) -- where you make cannabutter and baked edibles
-Config.MakeOil = vector3(1038.90, -3198.66, -38.17-1) -- where you make shatter
+Config.MakeOil = vector3(1038.90, -3198.66, -38.17) -- where you make shatter
 Config.WeedSaleman = vector4(1030.46, -3203.63, -38.2, 180.0)
 
 Config.WeedDry = { -- where you dry leaves 
@@ -156,8 +156,8 @@ Config.Weed = { --- this is the store for the weed ingridients
 ----------------- Wholesale
 Config.SuccessfulChance = 90 --- this is the chance of a Success wholesale 1-100
 Config.AlertPoliceWholesale = 90 -- 1-100 of how often it will alert police
-Config.WholesaleTimeout = 600 -- time in seconds to get to the location
-Config.PoliceCount = 2 -- Amount of police required
+Config.WholesaleTimeout = 0 -- time in seconds to get to the location
+Config.PoliceCount = 0-- Amount of police required
 Config.Wcoke =  { min = 20, max = 60} -- pricings per item
 Config.Wcrack = { min = 20, max = 60}
 Config.Wlsd = { min = 20, max = 60}
@@ -250,20 +250,65 @@ Config.Methace = {
 
 ----------------------------- these are the locations where props will be spawned to be picked 
 Config.CocaPlant = {
-    { location = vector3(1474.25, -2643.87, 42.88),    heading = 334.49,     model = "prop_plant_01a" },
-    { location = vector3(1472.35, -2649.3, 41.87),     heading = 329.56,     model = "prop_plant_01a" }, 
-    { location = vector3(1475.7, -2652.9, 40.8),       heading = 25.16,      model = "prop_plant_01a" }, 
-    { location = vector3(1481.0, -2654.99, 39.86),     heading = 21.52,      model = "prop_plant_01a" }, 
-    { location = vector3(1480.9, -2660.63, 38.68),     heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1477.18, -2666.53, 38.19),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1477.58, -2670.82, 37.73),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1476.56, -2675.82, 37.46),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1474.8, -2680.19, 37.03),     heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1471.52, -2685.0, 36.82),     heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1462.82, -2676.58, 38.83),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1461.31, -2667.74, 39.67),    heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1456.3, -2647.61, 43.39),     heading = 202.97,     model = "prop_plant_01a" },
-    { location = vector3(1453.65, -2641.56, 45.0),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5302.6518554688, -5189.5209960938, 19.304306411743),    heading = 334.49,     model = "prop_plant_01a" },
+    { location = vector3(5305.7138671875, -5192.9458007812, 30.05358543396),     heading = 329.56,     model = "prop_plant_01a" }, 
+    { location = vector3(5310.310546875, -5197.1352539062, 30.480686569214),       heading = 25.16,      model = "prop_plant_01a" }, 
+    { location = vector3(5315.0678710938, -5201.6801757812, 30.556211853027),     heading = 21.52,      model = "prop_plant_01a" }, 
+    { location = vector3(5322.0375976562, -5208.302734375, 30.642078781128),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5329.1450195312, -5215.1323242188, 30.727989578247),    heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5334.705078125, -5220.724609375, 30.851147079468),    heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5333.2075195312, -5222.7758789062, 30.99321975708),    heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5327.8588867188, -5217.3095703125, 30.864330673218),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5322.4204101562, -5212.01953125, 30.746151351929),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5318.0571289062, -5207.8427734375, 30.740816497803),    heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5312.9487304688, -5202.8725585938, 30.621393585205),    heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5307.5473632812, -5197.4462890625, 30.487539672852),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5301.046875, -5191.3920898438, 29.371130371094),     heading = 202.97,     model = "prop_plant_01a" },
+
+    { location = vector3(5331.9223632812, -5225.26953125, 31.117227935791),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5327.6752929688, -5221.17578125, 31.120508575439),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5321.146484375, -5214.25390625, 30.845150375366),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5316.0546875, -5209.9184570312, 30.863914871216),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5310.982421875, -5204.6733398438, 30.68985786438),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5304.2827148438, -5198.7314453125, 30.457384490967),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5298.4423828125, -5192.7177734375, 29.215591812134),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5295.3125, -5196.5400390625, 29.293882751465),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5299.3686523438, -5200.3247070312, 30.170484924316),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5302.1635742188, -5203.2265625, 30.555250549316),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5306.7104492188, -5207.8129882812, 30.768591308594),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5311.1923828125, -5212.08203125, 30.982901000977),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5314.9291992188, -5215.484375, 31.015604400635),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5319.4721679688, -5219.8217773438, 31.00884475708),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5324.224609375, -5224.2993164062, 31.1956199646),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5328.5385742188, -5228.3583984375, 31.21436920166),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5327.193359375, -5230.6645507812, 31.236536407471),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5322.435546875, -5226.310546875, 31.240492248535),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5318.318359375, -5222.205078125, 31.109163665771),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5313.6284179688, -5217.7509765625, 31.116354370117),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5307.9731445312, -5212.1459960938, 30.954187774658),     heading = 202.97,     model = "prop_plant_01a" },
+
+    { location = vector3(5303.482421875, -5207.8486328125, 30.700355911255),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5300.05859375, -5204.6025390625, 30.45474281311),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5295.6684570312, -5200.3291015625, 29.698921585083),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5291.8232421875, -5200.013671875, 29.037542724609),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5295.6469726562, -5203.8930664062, 29.909847640991),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5299.47265625, -5207.7719726562, 30.502712631226),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5303.328125, -5211.4858398438, 30.832147979736),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5307.8447265625, -5215.76953125, 31.167791748047),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5312.05859375, -5219.4716796875, 31.221815490723),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5315.4106445312, -5222.7358398438, 31.220487976074),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5318.9624023438, -5226.3139648438, 31.285234832764),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5323.4477539062, -5230.6723632812, 31.325323486328),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5325.376953125, -5232.9072265625, 31.346212768555),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5318.2631835938, -5232.4018554688, 31.561861419678),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5314.2314453125, -5228.6381835938, 31.498819732666),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5310.294921875, -5224.869140625, 31.418257141113),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5305.8784179688, -5220.5297851562, 31.357141876221),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5300.564453125, -5215.5732421875, 30.896683120728),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5296.2270507812, -5211.2763671875, 30.330637359619),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5292.9853515625, -5208.189453125, 29.766828918457),     heading = 202.97,     model = "prop_plant_01a" },
+    { location = vector3(5288.4965820312, -5204.015625, 28.606016540527),     heading = 202.97,     model = "prop_plant_01a" },
+
 }
 
 Config.WeedPlant = {
@@ -303,19 +348,24 @@ Config.WeedPlant = {
 
 
 Config.PoppyPlants = {
-    { location = vector3(-2251.3, -99.18, 100.11),    heading = 334.49,    model = "prop_plant_01b"},
-    { location = vector3(-2249.63, -92.97, 101.8),    heading = 329.56,    model = "prop_plant_01b"},
-    { location = vector3(-2245.57, -85.12, 104.5),    heading = 25.16,     model = "prop_plant_01b"},
-    { location = vector3(-2240.81, -88.48, 105.88),   heading = 21.52,     model = "prop_plant_01b"},
-    { location = vector3(-2240.87, -93.36, 103.88),   heading = 334.49,    model = "prop_plant_01b"},
-    { location = vector3(-2236.0, -95.34, 102.55),    heading = 329.56,    model = "prop_plant_01b"},
-    { location = vector3(-2240.6, -100.01, 100.49),   heading = 25.16,     model = "prop_plant_01b"},
-    { location = vector3(-2246.29, -104.92, 99.27),   heading = 21.52,     model = "prop_plant_01b"},
-    { location = vector3(-2243.64, -107.99, 96.71),   heading = 334.49,    model = "prop_plant_01b"},
-    { location = vector3(-2254.22, -108.76, 97.25),   heading = 329.56,    model = "prop_plant_01b"},
-    { location = vector3(-2247.33, -108.92, 97.70),   heading = 25.16,     model = "prop_plant_01b"},
-    { location = vector3(-2250.96, -111.22, 97.50),   heading = 21.52,     model = "prop_plant_01b"},
-    { location = vector3(465.95, -1021.32, 31.78),    heading = 21.52,     model = "prop_plant_01b"},
+    { location = vector3(5450.4423828125, -5954.181640625, 14.932999801636),    heading = 334.49,    model = "prop_plant_01b"},
+    { location = vector3(5446.8286132812, -5945.376953125, 14.895823669434),    heading = 329.56,    model = "prop_plant_01b"},
+    { location = vector3(5454.9970703125, -5936.2080078125, 15.903340530396),    heading = 25.16,     model = "prop_plant_01b"},
+    { location = vector3(5463.7592773438, -5934.8510742188, 15.72845954895),   heading = 21.52,     model = "prop_plant_01b"},
+    { location = vector3(5454.5922851562, -5927.7099609375, 16.297562789917),   heading = 334.49,    model = "prop_plant_01b"},
+    { location = vector3(5452.3637695312, -5917.5673828125, 16.53812713623),    heading = 329.56,    model = "prop_plant_01b"},
+    { location = vector3(5463.3374023438, -5919.068359375, 18.392663192749),   heading = 25.16,     model = "prop_plant_01b"},
+    { location = vector3(5473.7241210938, -5921.7524414062, 16.508855056763),   heading = 21.52,     model = "prop_plant_01b"},
+    { location = vector3(5482.2768554688, -5911.251953125, 14.068372917175),   heading = 334.49,    model = "prop_plant_01b"},
+    { location = vector3(5493.2734375, -5905.3833007812, 14.521575164795),   heading = 329.56,    model = "prop_plant_01b"},
+    { location = vector3(5491.4711914062, -5899.0219726562, 15.817477416992),   heading = 25.16,     model = "prop_plant_01b"},
+    { location = vector3(5491.4711914062, -5899.0219726562, 15.817477416992),   heading = 21.52,     model = "prop_plant_01b"},
+    { location = vector3(5476.5751953125, -5886.8588867188, 17.923363876343),    heading = 21.52,     model = "prop_plant_01b"},
+
+    { location = vector3(5471.58203125, -5885.21484375, 19.299332809448),    heading = 21.52,     model = "prop_plant_01b"},
+    { location = vector3(5464.2719726562, -5881.0805664062, 20.507037353516),    heading = 21.52,     model = "prop_plant_01b"},
+    { location = vector3(5457.2084960938, -5877.8881835938, 20.730128479004),    heading = 21.52,     model = "prop_plant_01b"},
+    { location = vector3(5449.9721679688, -5873.1533203125, 20.578480911255),    heading = 21.52,     model = "prop_plant_01b"},
 }
 
 Config.shrooms = {

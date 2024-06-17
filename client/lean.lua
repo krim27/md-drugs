@@ -10,7 +10,17 @@ CreateThread(function()
         { type = "client", label = "Get Task", icon = "fas fa-eye", event = "md-drugs:client:getsyruplocationtobuy", distance = 2.0},
     }
     if Config.oxtarget then
-        exports.ox_target:addLocalEntity(SyrupLocation, options)
+        exports.interact:AddLocalEntityInteraction({
+            entity = SyrupLocation,
+            name = 'SyrupLocation', -- optional
+            id = 'SyrupLocation', -- needed for removing interactions
+            distance = 3.0, -- optional
+            interactDst = 1.0, -- optional
+            ignoreLos = false, -- optional ignores line of sight
+            offset = vec3(0.0, 0.0, 0.0), -- optional
+            options = options
+        })
+        --exports.ox_target:addLocalEntity(SyrupLocation, options)
     else
 	    exports['qb-target']:AddTargetEntity(SyrupLocation, { options = options, distance = 2.0})
     end    

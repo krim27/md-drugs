@@ -2,28 +2,32 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local CocaPlant = {}
 local cuttingcoke = nil
 local baggingcoke = nil
+local isProgressActive = false
 
 RegisterNetEvent('coke:respawnCane', function(loc)
     local v = GlobalState.CocaPlant[loc]
     local hash = GetHashKey(v.model)
     --if not HasModelLoaded(hash) then LoadModel(hash) end
     if not CocaPlant[loc] then
-        CocaPlant[loc] = CreateObject(hash, v.location, false, true, true)
+        CocaPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z, true, true, true)
         SetEntityAsMissionEntity(CocaPlant[loc], true, true)
         FreezeEntityPosition(CocaPlant[loc], true)
         SetEntityHeading(CocaPlant[loc], v.heading)
-        exports['qb-target']:AddTargetEntity(CocaPlant[loc], {
-            options = { {
-                    icon = "fas fa-hand",
-                    label = "pick Cocaine",
-                    action = function()
-                        if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then return end
-                        TriggerServerEvent("coke:pickupCane", loc)   
-                    end
-                }
+        local options = {
+            {
+                label = "pick Cocaine",
+                icon = 'fa-solid fa-leaf',
+                onSelect = function()
+                    if not progressbar(Lang.Coke.picking, 8000, 'garden') then return end
+                    TriggerServerEvent("coke:pickupCane", loc)   
+                end,
+                canInteract = function ()
+                    local item = QBCore.Functions.HasItem('scissors')
+                    return item
+                end
             },
-            distance = 3.0
-        })
+        }
+        exports.ox_target:addLocalEntity(CocaPlant[loc], options)
     end
 end)
 
@@ -37,22 +41,25 @@ RegisterNetEvent("coke:init", function()
         local hash = GetHashKey(v.model)
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
-            CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
+            CocaPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, true, true, true)
             SetEntityAsMissionEntity(CocaPlant[k], true, true)
             FreezeEntityPosition(CocaPlant[k], true)
             SetEntityHeading(CocaPlant[k], v.heading)
-            exports['qb-target']:AddTargetEntity(CocaPlant[k], {
-                options = { {
-                        icon = "fas fa-hand",
-                        label = "pick cocaine",
-                        action = function()
-                           if not progressbar(Lang.Coke.picking, 4000, 'uncuff') then  return end
-                            TriggerServerEvent("coke:pickupCane", k)
-                        end
-                    }
+            local options = {
+                {
+                    label = "pick Cocaine",
+                    icon = 'fa-solid fa-leaf',
+                    onSelect = function()
+                        if not progressbar(Lang.Coke.picking, 8000, 'garden') then  return end
+                         TriggerServerEvent("coke:pickupCane", k)
+                    end,
+                    canInteract = function ()
+                        local item = QBCore.Functions.HasItem('scissors')
+                        return item
+                    end
                 },
-                distance = 3.0
-            })
+            }
+            exports.ox_target:addLocalEntity(CocaPlant[k], options)
         end
     end
 end)
@@ -80,36 +87,123 @@ AddEventHandler('onResourceStop', function(resourceName)
     end
 end)
 
+
+
+-- Register a client-side event for making powder from coca leaves
 RegisterNetEvent("md-drugs:client:makepowder", function(data)
-    if not ItemCheck('coca_leaf') then return end
-    if not progressbar(Lang.Coke.makepow, 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:makepowder", data.data)
-end)
-
-RegisterNetEvent("md-drugs:client:cutcokeone", function()
-    if not ItemCheck('bakingsoda') then return end
-	cuttingcoke = true
-    if Config.FancyCokeAnims then
-	    CutCoke()
-    else
-         if not progressbar(Lang.Coke.cutting, 5000, 'uncuff') then cuttingcoke = nil return end
+    -- Check if the progress bar is already active
+    if isProgressActive then 
+        lib.notify({
+            title = 'Nerd',
+            description = 'Stop Spamming nerd',
+            type = 'error',
+            position = 'bottom'
+        })
+        return 
     end
-	TriggerServerEvent("md-drugs:server:cutcokeone")
-	cuttingcoke = nil
+
+    -- Check if the player has the required item 'coca_leaf'
+    if not ItemCheck('coca_leaf') then 
+        return 
+    end
+    
+    -- Set the progress bar status to active
+    isProgressActive = true
+    
+    -- Show a progress bar for 4 seconds with the action 'uncuff'
+    if not progressbar(Lang.Coke.makepow, 4000, 'uncuff') then 
+        isProgressActive = false  -- Reset the status if progress bar fails
+        return 
+    end
+    
+    -- Trigger a server-side event to process making powder
+    TriggerServerEvent("md-drugs:server:makepowder", data.data)
+    
+    -- Reset the progress bar status after completion
+    isProgressActive = false
 end)
 
-RegisterNetEvent("md-drugs:client:bagcoke", function() 
-    if not ItemCheck('empty_weed_bag') then return end
-	baggingcoke = true
+
+-- Initialize variables to track the progress bar status
+local isCuttingCokeActive = false
+local isBaggingCokeActive = false
+
+-- Register a client-side event for cutting coke
+RegisterNetEvent("md-drugs:client:cutcokeone", function()
+    -- Check if the progress bar is already active
+    if isCuttingCokeActive then 
+        lib.notify({
+            title = 'Nerd',
+            description = 'Stop Spamming nerd',
+            type = 'error',
+            position = 'bottom'
+        })
+        return 
+    end
+
+    -- Check if the player has the required item 'bakingsoda'
+    if not ItemCheck('bakingsoda') then 
+        return 
+    end
+
+    -- Set the progress bar status to active
+    isCuttingCokeActive = true
+
+    -- Handle animations or progress bar
     if Config.FancyCokeAnims then
-	    BagCoke()
+        CutCoke()
     else
-        if not progressbar(Lang.Coke.bagging, 5000, 'uncuff') then baggingcoke = nil return end
-    end      
-	TriggerServerEvent("md-drugs:server:bagcoke")
-	baggingcoke = nil
-   
+        if not progressbar(Lang.Coke.cutting, 5000, 'uncuff') then 
+            isCuttingCokeActive = false  -- Reset the status if progress bar fails
+            return 
+        end
+    end
+
+    -- Trigger a server-side event to process cutting coke
+    TriggerServerEvent("md-drugs:server:cutcokeone")
+
+    -- Reset the progress bar status after completion
+    isCuttingCokeActive = false
 end)
+
+-- Register a client-side event for bagging coke
+RegisterNetEvent("md-drugs:client:bagcoke", function() 
+    -- Check if the progress bar is already active
+    if isBaggingCokeActive then 
+        lib.notify({
+            title = 'Nerd',
+            description = 'Stop Spamming nerd',
+            type = 'error',
+            position = 'bottom'
+        })
+        return 
+    end
+
+    -- Check if the player has the required item 'empty_coke_bag'
+    if not ItemCheck('empty_coke_bag') then 
+        return 
+    end
+
+    -- Set the progress bar status to active
+    isBaggingCokeActive = true
+
+    -- Handle animations or progress bar
+    if Config.FancyCokeAnims then
+        BagCoke()
+    else
+        if not progressbar(Lang.Coke.bagging, 5000, 'uncuff') then 
+            isBaggingCokeActive = false  -- Reset the status if progress bar fails
+            return 
+        end
+    end
+
+    -- Trigger a server-side event to process bagging coke
+    TriggerServerEvent("md-drugs:server:bagcoke")
+
+    -- Reset the progress bar status after completion
+    isBaggingCokeActive = false
+end)
+
 
 CreateThread(function()
 	local options = {
@@ -122,8 +216,61 @@ CreateThread(function()
 		{ type = "client", event = "md-drugs:client:bagcoke", icon = "fas fa-sign-in-alt", label = "bagging", canInteract = function()
 				if baggingcoke == nil and cuttingcoke == nil then return true end end }, }
     if Config.oxtarget then
-        exports.ox_target:addBoxZone({coords = vector3(1093.17, -3195.74, -39.19 -1), size = vec3(1,1,1), options = options})
-        exports.ox_target:addBoxZone({coords = vector3(1093.17, -3195.74, -39.19 -1), size = vec3(1,1,1), options = options2})
+        exports.interact:AddInteraction({
+            coords = vector3(1093.17, -3195.74, -39.19),
+            distance = 4.0, -- optional
+            interactDst = 1.0, -- optional
+            id = "cutcokepowder", -- needed for removing interactions
+            name = "cutcokepowder", -- optional
+            options = {
+                {
+                    event = "md-drugs:client:cutcokeone",
+                    label = "cut up", 
+                    canInteract = function()
+                        local item1 = QBCore.Functions.HasItem('bakingsoda')
+                        local item2 = QBCore.Functions.HasItem('coke')
+                        local item3 = QBCore.Functions.HasItem('cokestagetwo')
+                        local item4 = QBCore.Functions.HasItem('cokestagethree')
+                        
+                        if item1 and (item2 or item3 or item4) then
+                            return true
+                        else
+                            return false
+                        end
+                    end
+                    
+                },
+                
+            }
+        })
+        exports.interact:AddInteraction({
+            coords = vector3(1090.3503417969, -3195.7060546875, -39.191955566406),
+            distance = 4.0, -- optional
+            interactDst = 1.0, -- optional
+            id = "bagcokepowder", -- needed for removing interactions
+            name = "bagcokepowder", -- optional
+            options = {
+                {
+                    event = "md-drugs:client:bagcoke",
+                    label = "bagging", 
+                    canInteract = function()
+                        local item1 = QBCore.Functions.HasItem('empty_coke_bag')
+                        local item2 = QBCore.Functions.HasItem('loosecoke')
+                        local item3 = QBCore.Functions.HasItem('loosecoketwo')
+                        local item4 = QBCore.Functions.HasItem('loosecokethree')
+                        
+                        if item1 and (item2 or item3 or item4) then
+                            return true
+                        else
+                            return false
+                        end
+                    end
+                }
+                
+            }
+        })
+        --exports.ox_target:addBoxZone({coords = vector3(1093.17, -3195.74, -39.19 -1), size = vec3(1,1,1), options = options})
+        --exports.ox_target:addBoxZone({coords = vector3(1093.17, -3195.74, -39.19 -1), size = vec3(1,1,1), options = options2})
     else
         exports['qb-target']:AddBoxZone("cutcokepowder",vector3(1093.17, -3195.74, -39.19 -1),1.5, 1.75, {name = "cutcokepowder", minZ = -40.0,maxZ = -38.0,}, { options = options, distance = 2.0 })
 	    exports['qb-target']:AddBoxZone("bagcokepowder",vector3(1090.29, -3195.66, -39.13 - 1),1.5, 1.75, {name = "bagcokepowder", minZ = -40, maxZ = -38,}, {options = options2, distance = 2.0})
@@ -138,7 +285,15 @@ CreateThread(function()
                 },
             }
             if Config.oxtarget then
-                exports.ox_target:addBoxZone({coords = v.loc, size = vec3(1,1,1),debugPoly = false,rotation = v.rot, options = options,})
+                exports.interact:AddInteraction({
+                    coords = v.loc,
+                    distance = 4.0, -- optional
+                    interactDst = 1.0, -- optional
+                    id = "cutcoke", -- needed for removing interactions
+                    name = "cutcoke"..k, -- optional
+                    options = options
+                })
+               -- exports.ox_target:addBoxZone({coords = v.loc, size = vec3(1,1,1),debugPoly = false,rotation = v.rot, options = options,})
             else
                 exports['qb-target']:AddBoxZone("cutcoke"..k ,vector3(v.loc.x, v.loc.y, v.loc.z), v.l, v.w, {name ="cutcoke"..k, heading = 156.0,minZ = v.loc.z-1, maxZ = v.loc.z+1, }, {options = options, distance = 1.5})
             end
@@ -152,7 +307,15 @@ CreateThread(function()
                 },
             }
             if Config.oxtarget then
-                exports.ox_target:addBoxZone({coords = v.loc, size = vec3(1,1,1),debugPoly = false,rotation = v.rot, options = options,})
+                exports.interact:AddInteraction({
+                    coords = v.loc,
+                    distance = 4.0, -- optional
+                    interactDst = 1.0, -- optional
+                    id = "bagcoke", -- needed for removing interactions
+                    name = "bagcoke"..k, -- optional
+                    options = options
+                })
+                --exports.ox_target:addBoxZone({coords = v.loc, size = vec3(1,1,1),debugPoly = false,rotation = v.rot, options = options,})
             else
                 exports['qb-target']:AddBoxZone("bagcoke"..k ,vector3(v.loc.x, v.loc.y, v.loc.z), v.l, v.w, {name ="bagcoke"..k, heading = 156.0,minZ = v.loc.z-1, maxZ = v.loc.z+1, }, {options = options, distance = 1.5})
             end

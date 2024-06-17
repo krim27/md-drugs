@@ -58,6 +58,7 @@ RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
 		SetEntityHeading(oxybuyer, 180)
     	FreezeEntityPosition(oxybuyer, true)
     	SetEntityInvincible(oxybuyer, true)
+		SetBlockingOfNonTemporaryEvents(oxybuyer, true)
 	repeat
 		Wait(1000)
 	until #(GetEntityCoords(PlayerPedId()) - vector3(CurrentLocation.x,CurrentLocation.y,CurrentLocation.z)) < 5.0
@@ -67,7 +68,16 @@ RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
     	        { type = "client", label = "Talk To Buyer", icon = "fas fa-eye", event = "md-drugs:client:giveoxybox", ped = oxybuyer},
     	    }
 		if Config.oxtarget then
-			exports.ox_target:addLocalEntity(oxybuyer, options)
+			exports.interact:AddLocalEntityInteraction({
+				entity = oxybuyer,
+				name = 'oxybuyer', -- optional
+				id = 'oxybuyer', -- needed for removing interactions
+				distance = 3.0, -- optional
+				interactDst = 1.0, -- optional
+				ignoreLos = false, -- optional ignores line of sight
+				options = options
+			})
+			--exports.ox_target:addLocalEntity(oxybuyer, options)
 		else 
 			exports['qb-target']:AddTargetEntity(oxybuyer, {options = options, distance = 2.0})
 		end   
