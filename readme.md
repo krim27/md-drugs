@@ -56,7 +56,7 @@
 
 ```lua
 
------------------- md-drugs
+    ------------------ md-drugs
 	coke 		 	 	 	     = {name = "coke",           					label = "Raw Cocaine", 				    weight = 1000,		type = "item", 		image = "coke.png", 				    unique = false, 	useable = false, 	shouldClose = false,   combinable = nil,   description = "Raw Cocaine"},
     coca_leaf 		 	 	 	 = {name = "coca_leaf",           				label = "Cocaine leaves",	 		    weight = 1500,		type = "item", 		image = "coca_leaf.png", 			    unique = false, 	useable = false, 	shouldClose = false,   combinable = nil,   description = "Cocaine leaves that must be processed !"},
     poppyresin 		 	 	     = {name = "poppyresin",           				label = "Poppy resin",	 			    weight = 2000, 		type = "item", 		image = "poppyresin.png", 			    unique = false, 	useable = false, 	shouldClose = false,   combinable = nil,   description = "It sticks to your fingers when you handle it."},

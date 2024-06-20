@@ -22,7 +22,7 @@ RegisterNetEvent('coke:respawnCane', function(loc)
                     TriggerServerEvent("coke:pickupCane", loc)   
                 end,
                 canInteract = function ()
-                    local item = QBCore.Functions.HasItem('scissors')
+                    local item = QBCore.Functions.HasItem('trowel')
                     return item
                 end
             },
@@ -54,7 +54,7 @@ RegisterNetEvent("coke:init", function()
                          TriggerServerEvent("coke:pickupCane", k)
                     end,
                     canInteract = function ()
-                        local item = QBCore.Functions.HasItem('scissors')
+                        local item = QBCore.Functions.HasItem('trowel')
                         return item
                     end
                 },

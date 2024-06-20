@@ -13,12 +13,44 @@ if Config.oxtarget then
 			 {
 				label = "Enter Building",
 				action = function()
+					-- Fade out the screen
 					DoScreenFadeOut(500)
+					-- Wait for the fade out to complete
 					Wait(1000)
-					SetEntityCoords(PlayerPedId(),Config.CokeTeleOut.x, Config.CokeTeleOut.y, Config.CokeTeleOut.z)
+					
+					-- Teleport the player to the specified coordinates
+					local playerPed = PlayerPedId()
+					local teleportCoords = Config.CokeTeleOut
+				
+					-- Ensure that the coordinates are valid
+					if teleportCoords then
+						-- Set the player's ped to not be in any vehicle
+						if IsPedInAnyVehicle(playerPed, false) then
+							TaskLeaveVehicle(playerPed, GetVehiclePedIsIn(playerPed, false), 16)
+							Wait(500)
+						end
+				
+						-- Freeze the player to avoid falling animation
+						FreezeEntityPosition(playerPed, true)
+						SetEntityCoords(playerPed, teleportCoords.x, teleportCoords.y, teleportCoords.z + 1.0) -- Adjust Z-coordinate slightly
+						Wait(1000) -- Give it some time for teleportation to complete
+				
+						-- Unfreeze the player
+						FreezeEntityPosition(playerPed, false)
+				
+						-- Reset the player's state to avoid the falling over animation
+						ClearPedTasksImmediately(playerPed)
+					else
+						print("Teleport coordinates are not set in the configuration.")
+					end
+				
+					-- Wait for a moment before fading back in
 					Wait(1000)
+					
+					-- Fade the screen back in
 					DoScreenFadeIn(500)
 				end,
+				
 				canInteract = function ()
 					local item = QBCore.Functions.HasItem('cocaine_lab_key')
 					return item
@@ -36,12 +68,44 @@ if Config.oxtarget then
 			 {
 				label = "Exit Building",
 				action = function()
+					-- Fade out the screen
 					DoScreenFadeOut(500)
+					-- Wait for the fade out to complete
 					Wait(500)
-					SetEntityCoords(PlayerPedId(),Config.CokeTeleIn)
+					
+					-- Teleport the player to the specified coordinates
+					local playerPed = PlayerPedId()
+					local teleportCoords = Config.CokeTeleIn
+				
+					-- Ensure that the coordinates are valid
+					if teleportCoords then
+						-- Set the player's ped to not be in any vehicle
+						if IsPedInAnyVehicle(playerPed, false) then
+							TaskLeaveVehicle(playerPed, GetVehiclePedIsIn(playerPed, false), 16)
+							Wait(500)
+						end
+				
+						-- Freeze the player to avoid falling animation
+						FreezeEntityPosition(playerPed, true)
+						SetEntityCoords(playerPed, teleportCoords.x, teleportCoords.y, teleportCoords.z) -- Adjust Z-coordinate slightly
+						Wait(1000) -- Give it some time for teleportation to complete
+				
+						-- Unfreeze the player
+						FreezeEntityPosition(playerPed, false)
+				
+						-- Reset the player's state to avoid the falling over animation
+						ClearPedTasksImmediately(playerPed)
+					else
+						print("Teleport coordinates are not set in the configuration.")
+					end
+				
+					-- Wait for a moment before fading back in
 					Wait(500)
+					
+					-- Fade the screen back in
 					DoScreenFadeIn(500)
 				end,
+				
 				canInteract = function ()
 					local item = QBCore.Functions.HasItem('cocaine_lab_key')
 					return item

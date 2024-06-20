@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local WeedPlant = {}
 local exploded = nil
-local drying = false
+local dryingSpots = {} -- Table to track drying states for each spot
 function LoadModel(hash)
     hash = GetHashKey(hash)
     RequestModel(hash)
@@ -15,23 +15,22 @@ RegisterNetEvent('weed:respawnCane', function(loc)
     local hash = GetHashKey(v.model)
     if not HasModelLoaded(hash) then LoadModel(hash) end
     if not WeedPlant[loc] then
-        WeedPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
+        WeedPlant[loc] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, true, true, true)
         SetEntityAsMissionEntity(WeedPlant[loc], true, true)
         FreezeEntityPosition(WeedPlant[loc], true)
         SetEntityHeading(WeedPlant[loc], v.heading)
 		local options = {
 			{
 				label = "Pick Weed",
-				action = function()
+				icon = 'fa-solid fa-leaf',
+				onSelect = function()
 				   if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
 					TriggerServerEvent("weed:pickupCane", loc)
 				end,
-				canInteract = function()
-					if Config.Joblock then
-						if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-							return true end
-					else
-					return true end end,
+				canInteract = function ()
+                    local item = QBCore.Functions.HasItem('scissors')
+                    return item
+                end
 			}
 		}
 		exports.ox_target:addLocalEntity(WeedPlant[loc], options)
@@ -48,23 +47,22 @@ RegisterNetEvent("weed:init", function()
         local hash = GetHashKey(v.model)
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
-            WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, false, true, true)
+            WeedPlant[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z-3.5, true, true, true)
             SetEntityAsMissionEntity(WeedPlant[k], true, true)
             FreezeEntityPosition(WeedPlant[k], true)
             SetEntityHeading(WeedPlant[k], v.heading)
 			local options = {
 				{
 					label = "Pick Weed",
-					action = function()
+					icon = 'fa-solid fa-leaf',
+					onSelect = function()
 					   if not progressbar(Lang.Weed.pick, 4000, 'uncuff') then return end
 						TriggerServerEvent("weed:pickupCane", k)
 					end,
-					canInteract = function()
-						if Config.Joblock then
-							if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-								return true end
-						else
-						return true end end,
+					canInteract = function ()
+						local item = QBCore.Functions.HasItem('scissors')
+						return item
+					end
 				}
 			}
 			exports.ox_target:addLocalEntity(WeedPlant[k], options)
@@ -96,81 +94,101 @@ AddEventHandler('onResourceStop', function(resourceName)
 end)
 
 CreateThread(function()
-
-
-	for k, v in pairs (Config.WeedDry) do
+	for k, v in pairs(Config.WeedDry) do
+		dryingSpots[k] = false -- Initialize drying state for each spot
+	
 		exports.interact:AddInteraction({
 			coords = v,
 			distance = 3.0, -- optional
 			interactDst = 1.0, -- optional
-			id = 'weeddry', -- needed for removing interactions
-			name = 'weeddry', -- optional
+			id = 'weeddry' .. k, -- needed for removing interactions
+			name = "weeddry" .. k, -- optional
 			options = {
 				{
+					name = 'dryweed',
+					icon = "fas fa-sign-in-alt",
 					label = "Dry Weed",
 					distance = 1,
+					items = "wetcannabis",
 					action = function()
-						if drying then
+						local hasItem = QBCore.Functions.HasItem('wetcannabis')
+						if dryingSpots[k] then
 							Notify(Lang.Weed.busy, "error")
+						elseif not hasItem then
+							Notify("You do not have wet cannabis to dry", "error")
 						else
-							local loc = GetEntityCoords(PlayerPedId())
-							local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y+.2, loc.z, false, false)
-							drying = true
+							local loc = vector3(v.x, v.y - 0.2, v.z)
+							local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y + 0.2, loc.z, true, true, true)
+							dryingSpots[k] = true
 							FreezeEntityPosition(weedplant, true)
-							Notify("Wait A little Bit To Dry", "success")
-							Wait(math.random(1000,5000))
-							Notify("Take Down The Weed", "success")
-							local options = {
-								{
-									icon = "fas fa-sign-in-alt",
-									label = "Pick Up Weed",
-									action = function()
-										DeleteEntity(weedplant)
-										drying = false
-										TriggerServerEvent('md-drugs:server:dryoutweed')
-									end,
-									canInteract = function()
-										if Config.Joblock then
-											if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-												return true end
-										else
-										return true end end,										
+							Notify("Wait a little bit to dry at spot " .. k, "success")
+							TriggerServerEvent('md-drugs:server:putoutweed')
+							
+							Citizen.SetTimeout(math.random(30000, 120000), function()
+								Notify("Take down the weed from spot " .. k, "success")
+								local options = {
+									{
+										icon = "fas fa-sign-in-alt",
+										label = "Pick Up Weed",
+										action = function()
+											DeleteEntity(weedplant)
+											TriggerServerEvent('md-drugs:server:dryoutweed')
+											dryingSpots[k] = false
+										end,
+										canInteract = function()
+											if Config.Joblock then
+												return QBCore.Functions.GetPlayerData().job.name == Config.weedjob
+											else
+												return true
+											end
+										end,
+									}
 								}
-							}
-							local optionsox = {
-								{
-									icon = "fas fa-sign-in-alt",
-									label = "Pick Up Weed",
-									action = function()
-										DeleteEntity(weedplant)
-										drying = false
-										TriggerServerEvent('md-drugs:server:dryoutweed')
-									end,
-									canInteract = function()
-										if Config.Joblock then
-											if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-												return true end
-										else
-										return true end end,										
+	
+								local optionsox = {
+									{
+										icon = "fas fa-sign-in-alt",
+										label = "Pick Up Weed",
+										onSelect = function()
+											DeleteEntity(weedplant)
+											TriggerServerEvent('md-drugs:server:dryoutweed')
+											dryingSpots[k] = false
+										end,
+										canInteract = function()
+											if Config.Joblock then
+												return QBCore.Functions.GetPlayerData().job.name == Config.weedjob
+											else
+												return true
+											end
+										end,
+									}
 								}
-							}
-							if Config.oxtarget then
-								exports.ox_target:addLocalEntity(weedplant, options)
-							else
-								exports['qb-target']:AddTargetEntity(weedplant, {options = options})
-							end
+	
+								if Config.oxtarget then
+									exports.ox_target:addLocalEntity(weedplant, optionsox)
+								else
+									exports['qb-target']:AddTargetEntity(weedplant, { options = options })
+								end
+							end)
 						end
 					end,
 					canInteract = function()
-						local Hasitem = QBCore.Functions.HasItem('wetcannabis')
-						if Hasitem then
-							return true
+						if Config.Joblock then
+							if QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
+								return not dryingSpots[k]
+							end
+						else
+							return not dryingSpots[k]
 						end
+						return false
 					end,
 				},
-			}
-		})
+			},
+		})    
 	end
+	
+
+
 	exports.interact:AddInteraction({
 	    coords = Config.Telein,
 	    distance = 3.0, -- optional
@@ -215,6 +233,7 @@ CreateThread(function()
 	        },
 	    }
 	})
+	-- Butter, Brownies, Cookies, Chocolate, Muffin Interactions
 	exports.interact:AddInteraction({
 	    coords = Config.MakeButter,
 	    distance = 3.0, -- optional
@@ -222,88 +241,84 @@ CreateThread(function()
 	    id = 'MakeButter', -- needed for removing interactions
 	    name = 'MakeButter', -- optional
 	    options = {
-			{
-				label = "Make Butter",
-				action = function()
-					if not ItemCheck('mdbutter') and not ItemCheck('grindedweed') then return end
-					if not minigame(2, 8) then return end
-					if not progressbar(Lang.Weed.canna, 4000, 'uncuff') then return end
-					TriggerServerEvent("md-drugs:server:makebutter")       
-				end,
-				canInteract = function()
-				if Config.Joblock then
-					if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-						return true end
-				else
-				return true end end,
-			},
-			{
-				label = "Make Brownies",
-				item = "cannabutter",
-				action = function()
-					if not ItemCheck('cannabutter') and not ItemCheck('flour') and not ItemCheck('chocolate') then return end
-					if not minigame(2, 8) then return end
-					if not progressbar(Lang.Weed.brown, 4000, 'uncuff') then return end
-					TriggerServerEvent("md-drugs:server:makebrownies")       
-					
-				end,
-				canInteract = function()
-				if Config.Joblock then
-					if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-						return true end
-				else
-				return true end end,
-			},
-			{
-				label = "Make Cookies",
-				item = "cannabutter",
-				action = function()
-					if not ItemCheck('cannabutter') and not ItemCheck('flour') then return end
-					if not minigame(2, 8) then return end
-					if not progressbar(Lang.Weed.cook, 4000, 'uncuff') then return end
-					TriggerServerEvent("md-drugs:server:makecookies")       
-				end,
-				canInteract = function()
-				if Config.Joblock then
-					if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-						return true end
-				else
-				return true end end,
-			},
-			{
-				label = "Make Chocolate",
-				item = "cannabutter",
-				action = function()
-					if not ItemCheck('cannabutter') and not ItemCheck('chocolate') then return end
-					if not minigame(2, 8) then return end
-					if not progressbar(Lang.Weed.choc, 4000, 'uncuff') then return end
-					TriggerServerEvent("md-drugs:server:makechocolate")       
-				end,
-				canInteract = function()
-				if Config.Joblock then
-					if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-						return true end
-				else
-				return true end end,
-			},
-			{
-				label = "Make Muffin",
-				item = "cannabutter",
-				action = function()
-					if not ItemCheck('cannabutter') and not ItemCheck('flour') then return end
-					if not minigame(2, 8) then return end
-					if not progressbar(Lang.Weed.muff, 4000, 'uncuff') then return end
-					TriggerServerEvent("md-drugs:server:makemuffin")       
-				end,
-				canInteract = function()
-				if Config.Joblock then
-					if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
-						return true end
-				else
-				return true end end,
-			},
+	        {
+	            label = "Make Butter",
+	            action = function()
+	                local skillLevel = exports.evolent_skills:getSkillLevel('weed')
+	                if skillLevel >= 10 then
+	                    if not ItemCheck('mdbutter') and not ItemCheck('grindedweed') then return end
+	                    if not minigame(2, 8) then return end
+	                    if not progressbar(Lang.Weed.canna, 4000, 'uncuff') then return end
+	                    TriggerServerEvent("md-drugs:server:makebutter")
+	                else
+	                    QBCore.Functions.Notify("Not high enough level (10)", "error")
+	                end
+	            end,
+	        },
+	        {
+	            label = "Make Brownies",
+	            item = "cannabutter",
+	            action = function()
+	                local skillLevel = exports.evolent_skills:getSkillLevel('weed')
+	                if skillLevel >= 20 then
+	                    if not ItemCheck('cannabutter') and not ItemCheck('flour') and not ItemCheck('chocolate') then return end
+	                    if not minigame(2, 8) then return end
+	                    if not progressbar(Lang.Weed.brown, 4000, 'uncuff') then return end
+	                    TriggerServerEvent("md-drugs:server:makebrownies")
+	                else
+	                    QBCore.Functions.Notify("Not high enough level (20)", "error")
+	                end
+	            end,
+	        },
+	        {
+	            label = "Make Cookies",
+	            item = "cannabutter",
+	            action = function()
+	                local skillLevel = exports.evolent_skills:getSkillLevel('weed')
+	                if skillLevel >= 15 then
+	                    if not ItemCheck('cannabutter') and not ItemCheck('flour') then return end
+	                    if not minigame(2, 8) then return end
+	                    if not progressbar(Lang.Weed.cook, 4000, 'uncuff') then return end
+	                    TriggerServerEvent("md-drugs:server:makecookies")
+	                else
+	                    QBCore.Functions.Notify("Not high enough level (15)", "error")
+	                end
+	            end,
+	        },
+	        {
+	            label = "Make Chocolate",
+	            item = "cannabutter",
+	            action = function()
+	                local skillLevel = exports.evolent_skills:getSkillLevel('weed')
+	                if skillLevel >= 25 then
+	                    if not ItemCheck('cannabutter') and not ItemCheck('chocolate') then return end
+	                    if not minigame(2, 8) then return end
+	                    if not progressbar(Lang.Weed.choc, 4000, 'uncuff') then return end
+	                    TriggerServerEvent("md-drugs:server:makechocolate")
+	                else
+	                    QBCore.Functions.Notify("Not high enough level (25)", "error")
+	                end
+	            end,
+	        },
+	        {
+	            label = "Make Muffin",
+	            item = "cannabutter",
+	            action = function()
+	                local skillLevel = exports.evolent_skills:getSkillLevel('weed')
+	                if skillLevel >= 30 then
+	                    if not ItemCheck('cannabutter') and not ItemCheck('flour') then return end
+	                    if not minigame(2, 8) then return end
+	                    if not progressbar(Lang.Weed.muff, 4000, 'uncuff') then return end
+	                    TriggerServerEvent("md-drugs:server:makemuffin")
+	                else
+	                    QBCore.Functions.Notify("Not high enough level (30)", "error")
+	                end
+	            end,
+	        },
 	    }
 	})
+
+	-- Oil Interaction
 	exports.interact:AddInteraction({
 	    coords = Config.MakeOil,
 	    distance = 3.0, -- optional
@@ -311,30 +326,37 @@ CreateThread(function()
 	    id = 'makeoil', -- needed for removing interactions
 	    name = 'makeoil', -- optional
 	    options = {
-			{
-				label = "Make Oil",
-				action = function()
-					if not ItemCheck('butane') and not ItemCheck('grindedweed') then return end
-					if not minigame(2, 8) then 
-						local explosion = math.random(1,100)
-							local loc = GetEntityCoords(PlayerPedId())
-							if explosion <= 99 then
-								AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true, true)
-								exploded = true
-								Notify(Lang.Weed.stovehot, "error")
-								Wait(1000 * 30)
-								exploded = nil
-							end	
-					return end
-					if not progressbar(Lang.Weed.shat, 4000, 'uncuff') then return end
-					TriggerServerEvent("md-drugs:server:makeoil")       			
-				end,
-				canInteract = function()
-				if exploded == nil then return true end
-				end,
-			},
+	        {
+	            label = "Make Oil",
+	            action = function()
+	                local skillLevel = exports.evolent_skills:getSkillLevel('weed')
+	                if skillLevel >= 50 then
+	                    if not ItemCheck('butane') and not ItemCheck('grindedweed') then return end
+	                    if not minigame(2, 8) then
+	                        local explosion = math.random(1, 100)
+	                        local loc = GetEntityCoords(PlayerPedId())
+	                        if explosion <= 99 then
+	                            AddExplosion(loc.x, loc.y, loc.z, 49, 10, true, false, true, true)
+	                            exploded = true
+	                            QBCore.Functions.Notify(Lang.Weed.stovehot, "error")
+	                            Wait(1000 * 30)
+	                            exploded = nil
+	                        end
+	                        return
+	                    end
+	                    if not progressbar(Lang.Weed.shat, 4000, 'uncuff') then return end
+	                    TriggerServerEvent("md-drugs:server:makeoil")
+	                else
+	                    QBCore.Functions.Notify("Not high enough level (50)", "error")
+	                end
+	            end,
+	            canInteract = function()
+	                if exploded == nil then return true end
+	            end,
+	        },
 	    }
 	})
+
 end)
 
 CreateThread(function()

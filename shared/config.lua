@@ -4,7 +4,7 @@ Config.oxtarget = true --- turn to true if you use oxtarget
 Config.respawnTime = 150 -- Seconds
 Config.Fuel = "Renewed-Fuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
-Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
+Config.StupidassNewQbItemName = false -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
 
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
@@ -22,7 +22,7 @@ Config.Dispatch = 'cd' -- either 'ps', 'cd', 'core', 'aty'
 ------------- Cocaine -- new animations require to be in a certain spot or they get fucky. uses bob74 ipl if you turn Config.FancyCokeAnims you can put it anywhere :) 
 Config.FancyCokeAnims = true -- if you want multi location this needs to be false
 
-Config.CokeTeleIn = vector3(198.16, -1276.92, 29.33)-- where you target to go inside
+Config.CokeTeleIn = vector3(5137.7734375, -5123.6967773438, 2.9413630962372)-- where you target to go inside
 
 Config.CokeTeleOut = vector3(1088.81, -3187.57, -38.99) -- where you target to leave
 
@@ -130,10 +130,11 @@ Config.MakeOil = vector3(1038.90, -3198.66, -38.17) -- where you make shatter
 Config.WeedSaleman = vector4(1030.46, -3203.63, -38.2, 180.0)
 
 Config.WeedDry = { -- where you dry leaves 
-    vector3(1043.0, -3191.59, -38.39),
-    vector3(1041.0, -3191.59, -38.39),
-    vector3(1045.0, -3191.59, -38.39),
-    vector3(1039.0, -3191.59, -38.39),
+    vector3(1039.0, -3191.79, -38.39),
+    vector3(1041.0, -3191.79, -38.39),
+    vector3(1043.0, -3191.79, -38.39),
+    vector3(1045.0, -3191.79, -38.39),
+    
 }
 
 Config.Joblock = false -- if you want weed to be a job
@@ -344,6 +345,138 @@ Config.WeedPlant = {
     { location = vector3(1049.64, -3196.59, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
     { location = vector3(1049.62, -3195.51, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
     { location = vector3(1049.66, -3194.36, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+
+    { location = vector3(1049.822021484375, -3207.239990234375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1050.9901123046875, -3207.27734375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1052.1343994140625, -3207.29541015625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1053.324462890625, -3207.225341796875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1053.3887939453125, -3206.060791015625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1049.867919921875, -3206.323974609375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1052.1156005859375, -3206.100341796875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1051.124267578125, -3206.233154296875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1050.966064453125, -3205.183349609375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1049.897216796875, -3205.19677734375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1052.2203369140625, -3205.1435546875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1053.2662353515625, -3205.119140625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1053.4124755859375, -3204.10546875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1052.4058837890625, -3204.04638671875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1050.910400390625, -3203.91845703125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1049.9676513671875, -3203.879150390625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+
+    { location = vector3(1056.3638916015625, -3204.62744140625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1055.1378173828125, -3204.55712890625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1059.8094482421875, -3207.55224609375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1058.6412353515625, -3207.512939453125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.49951171875, -3207.460205078125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.3214111328125, -3207.333740234375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1055.0546875, -3207.291748046875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1054.926025390625, -3205.81787109375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.3385009765625, -3205.95166015625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.6214599609375, -3206.045166015625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1058.810302734375, -3206.1123046875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1059.901123046875, -3206.289306640625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1060.0142822265625, -3204.830078125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.7276611328125, -3204.795654296875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1058.86767578125, -3204.828857421875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+
+    { location = vector3(1064.6993408203125, -3206.545654296875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.7269287109375, -3205.447021484375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.81640625, -3204.067626953125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.781494140625, -3202.713134765625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.8494873046875, -3201.531982421875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.38037109375, -3201.509521484375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.2974853515625, -3202.658935546875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.4078369140625, -3204.05078125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.4263916015625, -3205.206298828125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.4266357421875, -3206.423583984375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.10791015625, -3206.417236328125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.114990234375, -3205.14990234375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.17626953125, -3204.04443359375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.0491943359375, -3202.732666015625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.16015625, -3201.48291015625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+
+    { location = vector3(1058.8536376953125, -3197.483642578125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1058.6407470703125, -3198.7001953125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1058.6597900390625, -3199.952880859375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1058.5205078125, -3201.18212890625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1058.4501953125, -3202.35107421875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.9869384765625, -3202.248046875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.1719970703125, -3201.182861328125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.24560546875, -3199.9345703125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.3621826171875, -3198.660888671875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.509521484375, -3197.432373046875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.040283203125, -3197.374267578125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.0570068359375, -3198.48291015625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.0006103515625, -3199.75830078125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1055.8624267578125, -3200.9716796875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1055.766845703125, -3202.1474609375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+
+    { location = vector3(1050.0692138671875, -3192.95361328125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1050.1173095703125, -3191.818603515625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1050.118408203125, -3190.551513671875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1050.1739501953125, -3189.155517578125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1050.25, -3187.876953125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1051.8359375, -3187.929931640625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1051.710693359375, -3189.2333984375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1051.657470703125, -3190.51123046875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1051.59326171875, -3191.72314453125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1051.4185791015625, -3192.988037109375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1052.70703125, -3192.99365234375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1052.7037353515625, -3191.779052734375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1052.8226318359375, -3190.574951171875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1052.8800048828125, -3189.302734375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1052.951171875, -3188.047607421875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+
+    { location = vector3(1054.770263671875, -3191.447509765625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1054.75732421875, -3190.335205078125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1054.8323974609375, -3189.218505859375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1054.8541259765625, -3188.037109375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1055.8951416015625, -3191.452880859375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1055.888427734375, -3190.386474609375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1055.8861083984375, -3189.33154296875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1055.9161376953125, -3188.147216796875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.9627685546875, -3190.380615234375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.9937744140625, -3188.190673828125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.9652099609375, -3189.380126953125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.9818115234375, -3190.354736328125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1056.9456787109375, -3191.481201171875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.9991455078125, -3191.4814453125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.9791259765625, -3189.3232421875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1057.9761962890625, -3188.171630859375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+
+    { location = vector3(1064.79541015625, -3199.800537109375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.800537109375, -3198.658447265625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.864013671875, -3198.697509765625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.7364501953125, -3199.823486328125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.7957763671875, -3197.705322265625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.7972412109375, -3196.509521484375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.87841796875, -3197.699951171875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.93408203125, -3196.56103515625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.8060302734375, -3196.557861328125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.752197265625, -3197.70361328125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.65625, -3198.765380859375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1061.5694580078125, -3199.74560546875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.6226806640625, -3199.728271484375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1061.5799560546875, -3198.6630859375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1061.675, -3197.498, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1061.8023681640625, -3196.412841796875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+
+    { location = vector3(1062.4697265625, -3192.94140625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.5438232421875, -3192.880615234375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.5694580078125, -3191.785888671875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.6387939453125, -3193.98828125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.5478515625, -3195.06298828125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.5692138671875, -3194.01953125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1064.6063232421875, -3195.069091796875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.5311279296875, -3192.85009765625, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1063.5113525390625, -3191.81591796875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.453125, -3195.08349609375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.5791015625, -3194.046630859375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1062.3590087890625, -3191.83984375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1061.3763427734375, -3193.94091796875, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1061.3765869140625, -3192.936767578125, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1061.254150390625, -3191.95458984375, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
+    { location = vector3(1061.26, -3195.049, -39.15),    heading = 202.97,    model = "bkr_prop_weed_lrg_01b"},
 }
 
 
