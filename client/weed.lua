@@ -117,7 +117,7 @@ CreateThread(function()
 						elseif not hasItem then
 							Notify("You do not have wet cannabis to dry", "error")
 						else
-							local loc = vector3(v.x, v.y - 0.2, v.z)
+							local loc = vector3(v.x, v.y, v.z)
 							local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y + 0.2, loc.z, true, true, true)
 							dryingSpots[k] = true
 							FreezeEntityPosition(weedplant, true)
