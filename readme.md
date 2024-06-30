@@ -378,8 +378,8 @@ then in prop emotes do
                     Bone = 18905,
                     Name = 'prop_syringe_01',
                     Placement = {
-                        vector3(0.11, 0.03, 0.0),
-                         vector3( -124.0, 0.0, 0.0),
+                        vector3(0.11, 0.03, 0.0,),
+                        vector3( -124.0, 0.0, 0.0),
                     },
                 },
             },
@@ -439,12 +439,11 @@ then in prop emotes do
 
  **IF YOU HAVE THE LATEST QB-CORE THEY RECENTLY UPDATED HOW METADATA IS MADE**
 
-go to the config of qb-core and search metadata, underneath armor = 0, add this
+go to the config of qb-core and search metadata, underneath craftingrep = 0, add this
 ```
  	lsd = 0,
         coke = 0,
         heroin = 0,
-	dealerrep = 0,
 ```
 	
 

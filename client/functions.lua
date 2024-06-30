@@ -5,22 +5,17 @@ local minigametype = Config.minigametype
 local notifytype = Config.Notify 
 local dispatch = Config.Dispatch
 
-function progressbar(text, time, anim)
+ function progressbar(text, time, anim)
+	
 	TriggerEvent('animations:client:EmoteCommandStart', {anim}) 
 	if progressbartype == 'oxbar' then 
 	  if lib.progressBar({ duration = time, label = text, useWhileDead = false, canCancel = true, disable = { car = true, move = true},}) then 
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
-		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote()
-		end
 		return true
 	  end	 
 	elseif progressbartype == 'oxcir' then
 	  if lib.progressCircle({ duration = time, label = text, useWhileDead = false, canCancel = true, position = 'bottom', disable = { car = true,move = true},}) then 
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
-		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote()
-		end	
 		return true
 	  end
 	elseif progressbartype == 'qb' then
@@ -30,14 +25,8 @@ function progressbar(text, time, anim)
 	  }, {}, {}, {}, function()-- Done
 		test = true
 		TriggerEvent('animations:client:EmoteCommandStart', {"c"}) 
-		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote()
-		end
 	  end, function()
 		cancelled = true
-		if GetResourceState('scully_emotemenu') == 'started' then
-			exports.scully_emotemenu:cancelEmote()
-		end
 	end)
 	  repeat 
 		Wait(100)
@@ -75,10 +64,10 @@ end
     elseif notifytype == 'qb' then
 	  QBCore.Functions.Notify(text, type)
 	elseif notifytype == 'okok' then
-	  exports['okokNotify']:Alert('', text, 4000, type, false)
+		exports['okokNotify']:Alert('', text, 4000, type, false)
 	else 
-       	print"dude, it literally tells you what you need to set it as in the config"
-    	end   
+       print"dude, it literally tells you what you need to set it as in the config"
+    end   
   end
 
 function ItemCheck(item)
@@ -144,8 +133,6 @@ function PoliceCall(chance)
 				}, {GetEntityCoords(PlayerPedId())}, "police", 3000, 11, 5 )
 		elseif dispatch == 'aty' then 
 			exports["aty_dispatch"]:SendDispatch('Drug Sale', '420-69', 40, {'police'})
-		elseif dispatch == 'qs' then
-			exports['qs-dispatch']:DrugSale()
 		else
 			print('Congrats, You Choose 0 of the options :)')	
 		end
@@ -164,11 +151,7 @@ end
 function GetImage(img)
 	if GetResourceState('ox_inventory') == 'started' then
 		local Items = exports['ox_inventory']:Items()
-		if Items[img]['client']['image'] == nil then 
-			return Items[img]
-		else
-			return Items[img]['client']['image']
-		end
+		return Items[img]['client']['image'] or Items[img]
 	elseif GetResourceState('ps-inventory') == 'started' then
 		return "nui://ps-inventory/html/images/".. QBCore.Shared.Items[img].image
 	elseif GetResourceState('lj-inventory') == 'started' then

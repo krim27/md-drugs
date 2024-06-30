@@ -13,18 +13,22 @@ local function createMerchantPed(location)
         return
     end
 
-    if currentPed and phoneProp then
-        local pedCoords = GetEntityCoords(currentPed)
-        local newCoords = vector3(location.x, location.y, location.z - 1)
-        if #(pedCoords - newCoords) < 1.0 then
-            return
+    -- Clean up any existing ped and phone prop
+    if currentPed then
+        if DoesEntityExist(currentPed) then
+            DeleteEntity(currentPed)
         end
-        DeleteObject(phoneProp)
-        phoneProp = nil
-        DeletePed(currentPed)
         currentPed = nil
     end
 
+    if phoneProp then
+        if DoesEntityExist(phoneProp) then
+            DeleteEntity(phoneProp)
+        end
+        phoneProp = nil
+    end
+
+    -- Request and create the ped model
     lib.requestModel(pedModel, Config.RequestModelTime)
     while not HasModelLoaded(pedModel) do
         Wait(500)
@@ -34,6 +38,7 @@ local function createMerchantPed(location)
     SetEntityInvincible(currentPed, true)
     SetBlockingOfNonTemporaryEvents(currentPed, true)
 
+    -- Request and play the animation
     local animDict = "amb@world_human_stand_mobile@male@text@base"
     RequestAnimDict(animDict)
     while not HasAnimDictLoaded(animDict) do
@@ -41,6 +46,7 @@ local function createMerchantPed(location)
     end
     TaskPlayAnim(currentPed, animDict, "base", 8.0, 0.0, -1, 49, 0, false, false, false)
 
+    -- Request and create the phone prop
     RequestModel(phoneModel)
     while not HasModelLoaded(phoneModel) do
         Wait(500)
@@ -49,6 +55,7 @@ local function createMerchantPed(location)
     AttachEntityToEntity(phoneProp, currentPed, GetPedBoneIndex(currentPed, 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
     SetEntityAlpha(phoneProp, 255, 0)
 
+    -- Setup the target options
     local targetOptions = {
         { label = "Drug Market", icon = "fas fa-eye", action = function() lib.showContext('travellingmerchant') end },
     }
@@ -158,11 +165,6 @@ end)
 RegisterNetEvent('wrp-drugs:client:hidemenus', function()
     lib.hideContext()
     lib.closeInputDialog()
-    lib.notify({
-        title = 'Moving',
-        description = 'Merchant Has Moved',
-        type = 'error'
-    })
 end)
 
 -- Clean up phone prop and merchant ped on resource stop

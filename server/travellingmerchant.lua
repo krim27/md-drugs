@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 local lastMerchantUpdate = os.time() -- Initialize with the current time
-local updateInterval = 30 -- 7 days in seconds
+local updateInterval = 604800 -- 7 days in seconds
 local merchantLocation = nil -- Variable to store the current location of the merchant
 
 -- Function to update the merchant's location
@@ -31,52 +31,51 @@ AddEventHandler('onResourceStart', function(resourceName)
         exports.oxmysql:fetch('SELECT location, last_update FROM merchant_location ORDER BY id DESC LIMIT 1', {}, function(result)
             if result[1] and result[1].location then
                 merchantLocation = json.decode(result[1].location)
-                lastMerchantUpdate = tonumber(result[1].last_update) or os.time() -- Retrieve the last update time from the database or default to the current time
+                lastMerchantUpdate = tonumber(result[1].last_update) or os.time() -- Retrieve the last update time from the database
+                TriggerClientEvent("wrp-drugs:client:setMerchantLocation", -1, merchantLocation)
             else
-                updateMerchantLocation()
+                updateMerchantLocation() -- If no location is found in the database, update to a new location
             end
-            -- Trigger client event to set the merchant's location
-            TriggerClientEvent("wrp-drugs:client:setMerchantLocation", -1, merchantLocation)
         end)
     end
 end)
 
--- Update merchant location every 7 days
+-- Update the merchant's location periodically
 CreateThread(function()
     while true do
-        Wait(1000) -- Check every second
-
         local currentTime = os.time()
-        print("Current Time:", currentTime)
-        print("Last Merchant Update:", lastMerchantUpdate)
-        print("Time Difference:", currentTime - lastMerchantUpdate)
-        print("Update Interval:", updateInterval)
-        -- Make sure lastMerchantUpdate is a valid number
-        if lastMerchantUpdate and (currentTime - lastMerchantUpdate >= updateInterval) then
+        if currentTime - lastMerchantUpdate >= updateInterval then
             updateMerchantLocation()
-            lastMerchantUpdate = currentTime -- Update the lastMerchantUpdate to the current time
+            lastMerchantUpdate = currentTime
         end
+        Wait(3600000) -- Check every hour
     end
 end)
 
--- Event to handle item purchase from the travelling merchant
-RegisterServerEvent("wrp-drugs:server:travellingmerchantox")
-AddEventHandler("wrp-drugs:server:travellingmerchantox", function(amount, item, price, table, num)
+-- Handle request to fetch merchant location
+RegisterNetEvent('wrp-drugs:server:getMerchantLocation', function()
+    local src = source
+    if merchantLocation then
+        TriggerClientEvent("wrp-drugs:client:setMerchantLocation", src, merchantLocation)
+    else
+        updateMerchantLocation()
+    end
+end)
+
+-- Handle item purchase from the merchant
+RegisterNetEvent("wrp-drugs:server:travellingmerchantox", function(amount, item, cost, itemsTable, itemIndex)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    local totalCost = cost * amount
 
-    if table[num].name ~= item then return end
-    if exports.ox_inventory:RemoveItem(src, 'dirtymoney', tonumber(price) * tonumber(amount), false, 1, false) then
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], "add", amount)
+    if exports.ox_inventory:RemoveItem(src, 'dirtymoney', totalCost, false, 1, false) then
         Player.Functions.AddItem(item, amount)
-        -- Play purchase animations for the ped and player
-        TriggerClientEvent("wrp-drugs:client:playPurchaseAnimations", src)
+        itemsTable[itemIndex].amount = itemsTable[itemIndex].amount - amount
+
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], "add")
+        TriggerClientEvent('QBCore:Notify', src, "You bought " .. amount .. " " .. QBCore.Shared.Items[item].label .. " for $" .. totalCost, 'success')
+    else
+        TriggerClientEvent('QBCore:Notify', src, "You don't have enough dirty money", 'error')
     end
 end)
 
--- Event to get the merchant's location from the server
-RegisterServerEvent("wrp-drugs:server:getMerchantLocation")
-AddEventHandler("wrp-drugs:server:getMerchantLocation", function()
-    local src = source
-    TriggerClientEvent("wrp-drugs:client:setMerchantLocation", src, merchantLocation)
-end)
