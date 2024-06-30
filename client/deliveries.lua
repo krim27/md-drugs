@@ -12,7 +12,7 @@ local drugDeliveryZone
 
 AddStateBagChangeHandler('isLoggedIn', nil, function(_, _, value)
     if value then
-        QBCore.Functions.TriggerCallback('md-drugs:server:RequestConfig', function(DealerConfig)
+        QBCore.Functions.TriggerCallback('wrp-drugs:server:RequestConfig', function(DealerConfig)
             QBConfig.Dealers = DealerConfig
         end)
         Wait(1000)
@@ -35,7 +35,7 @@ local function GetClosestDealer()
         end
     end
 end
-RegisterNetEvent('md-drugs:client:opendealermenu', function()
+RegisterNetEvent('wrp-drugs:client:opendealermenu', function()
     local dealermenu = {}
     if Config.StupidassNewQbItemName then
         for k, v in pairs (QBConfig.ProductsStupidNameRewrite) do 
@@ -44,7 +44,7 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
                           icon =  GetImage(v.name),
                           title = QBCore.Shared.Items[v.name].label,
                           description = v.price,
-                          event = "md-drugs:client:travellingmerchantox",
+                          event = "wrp-drugs:client:travellingmerchantox",
                           args = {
                               item = v.name,
                               cost = v.price,
@@ -64,7 +64,7 @@ RegisterNetEvent('md-drugs:client:opendealermenu', function()
                           icon =  GetImage(v.name),
                           title = QBCore.Shared.Items[v.name].label,
                           description = v.price,
-                          event = "md-drugs:client:travellingmerchantox",
+                          event = "wrp-drugs:client:travellingmerchantox",
                           args = {
                               item = v.name,
                               cost = v.price,
@@ -143,16 +143,19 @@ local function RequestDelivery()
             end
         end
 		
-        TriggerServerEvent('md-drugs:server:giveDeliveryItems', waitingDelivery)
+        TriggerServerEvent('wrp-drugs:server:giveDeliveryItems', waitingDelivery)
         SetTimeout(2000, function()
            TriggerServerEvent('qb-phone:server:sendNewMail', {
                sender = QBConfig.Dealers[currentDealer]["name"],
                subject = "Delivery Location",
                message = "Deliver This For Me",
-               
+               button = {
+                   enabled = true,
+                   buttonEvent = "wrp-drugs:client:setLocation",
+                   buttonData = waitingDelivery
+               }
            })
         end)
-        TriggerEvent("md-drugs:client:setLocation",waitingDelivery)
     else
         Notify(Lang.Delivery.busy, 'error')
     end
@@ -176,12 +179,12 @@ local function DeliverStuff()
         TriggerEvent('animations:client:EmoteCommandStart', {'uncuff'}) 
         PoliceCall(20)
         progressbar(Lang.Delivery.pack, 4000, 'uncuff')
-        TriggerServerEvent('md-drugs:server:successDelivery', activeDelivery, true)
+        TriggerServerEvent('wrp-drugs:server:successDelivery', activeDelivery, true)
         activeDelivery = nil
         exports['qb-target']:RemoveZone('drugDeliveryZone')
         ClearPedTasks(PlayerPedId())
     else
-        TriggerServerEvent('md-drugs:server:successDelivery', activeDelivery, false)
+        TriggerServerEvent('wrp-drugs:server:successDelivery', activeDelivery, false)
     end
     deliveryTimeout = 0
 end
@@ -249,7 +252,7 @@ function InitZones()
                      icon = 'fas fa-user-secret',
                      label = "Open Shop",
                      action = function()
-                        TriggerEvent('md-drugs:client:opendealermenu')
+                        TriggerEvent('wrp-drugs:client:opendealermenu')
                      end,
                      canInteract = function()
                          GetClosestDealer()
@@ -278,22 +281,22 @@ end
 
 -- Events
 
-RegisterNetEvent('md-drugs:client:RefreshDealers', function(DealerData)
+RegisterNetEvent('wrp-drugs:client:RefreshDealers', function(DealerData)
     if dealerCombo then dealerCombo:destroy() end
     QBConfig.Dealers = DealerData
     Wait(1000)
     InitZones()
 end)
 
-RegisterNetEvent('md-drugs:client:updateDealerItems', function(itemData, amount)
-    TriggerServerEvent('md-drugs:server:updateDealerItems', itemData, amount, currentDealer)
+RegisterNetEvent('wrp-drugs:client:updateDealerItems', function(itemData, amount)
+    TriggerServerEvent('wrp-drugs:server:updateDealerItems', itemData, amount, currentDealer)
 end)
 
-RegisterNetEvent('md-drugs:client:setDealerItems', function(itemData, amount, dealer)
+RegisterNetEvent('wrp-drugs:client:setDealerItems', function(itemData, amount, dealer)
     QBConfig.Dealers[dealer]["products"][itemData.slot].amount = QBConfig.Dealers[dealer]["products"][itemData.slot].amount - amount
 end)
 
-RegisterNetEvent('md-drugs:client:setLocation', function(locationData)
+RegisterNetEvent('wrp-drugs:client:setLocation', function(locationData)
     if activeDelivery then
         SetMapBlip(activeDelivery["coords"]["x"], activeDelivery["coords"]["y"])
         Notify(Lang.Delivery.already, 'error')
@@ -336,7 +339,7 @@ RegisterNetEvent('md-drugs:client:setLocation', function(locationData)
     
 end)
 
-RegisterNetEvent('md-drugs:client:sendDeliveryMail', function(type, deliveryData)
+RegisterNetEvent('wrp-drugs:client:sendDeliveryMail', function(type, deliveryData)
     if type == 'perfect' then
         TriggerServerEvent('qb-phone:server:sendNewMail', {
             sender = QBConfig.Dealers[deliveryData["dealer"]]["name"],

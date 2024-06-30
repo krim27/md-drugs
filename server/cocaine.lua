@@ -21,7 +21,7 @@ end
 RegisterNetEvent("coke:pickupCane")
 AddEventHandler("coke:pickupCane", function(loc)
 	local playerPed = GetPlayerPed(source)
-	
+	local playerId = source
 	if CheckDist(source, playerPed, Config.CocaPlant[loc].location) then return end
     if not Config.CocaPlant[loc].taken then
         Config.CocaPlant[loc].taken = true
@@ -30,24 +30,29 @@ AddEventHandler("coke:pickupCane", function(loc)
         CaneCooldown(loc)
         local Player = QBCore.Functions.GetPlayer(source)
         AddItem('coca_leaf', 1)
+		exports.evolent_skills:addXp(playerId, 'coke', math.random(1,5))
     end
 end)
 
 
-RegisterServerEvent('md-drugs:server:makepowder', function(num)
+RegisterServerEvent('wrp-drugs:server:makepowder', function(num)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
+	local playerId = source
 	if CheckDist(source, playerPed, Config.MakePowder[num]['loc']) then return end
 	if not Itemcheck(Player, 'coca_leaf', 1, 'true') then return end
 	if Config.TierSystem then		
 		local coke = Player.PlayerData.metadata['coke']
 		if coke <= Config.Tier1 then
 			if RemoveItem("coca_leaf", 1) then AddItem("coke", 1) end
+			exports.evolent_skills:addXp(playerId, 'coke', math.random(1,5))
 		elseif coke >= Config.Tier1 and coke <= Config.Tier2 then
 			if RemoveItem("coca_leaf", 1) then AddItem("cokestagetwo", 1) end
+			exports.evolent_skills:addXp(playerId, 'coke', math.random(5,10))
 		else
 			if RemoveItem("coca_leaf", 1) then AddItem("cokestagethree", 1) end
+			exports.evolent_skills:addXp(playerId, 'coke', math.random(10,15))
 		end
 	else
 		if  RemoveItem("coca_leaf", 1) then AddItem("coke", 1) end
@@ -55,9 +60,10 @@ RegisterServerEvent('md-drugs:server:makepowder', function(num)
 end)
 
 
-RegisterServerEvent('md-drugs:server:cutcokeone', function()
+RegisterServerEvent('wrp-drugs:server:cutcokeone', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+	local playerId = source
 	if not Itemcheck(Player,'bakingsoda', 1, 'true') then return end
 	if Config.TierSystem then
 		local coke = Player.Functions.GetItemByName('coke')
@@ -67,14 +73,17 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function()
 			RemoveItem('coke', 1 ) 
 			RemoveItem('bakingsoda', 1 ) 
 			AddItem('loosecoke', 1) 
+			exports.evolent_skills:addXp(playerId, 'coke', math.random(1,5))
 		elseif coke2 then
 			RemoveItem('cokestagetwo', 1 ) 
 			RemoveItem('bakingsoda', 1 ) 
 			AddItem('loosecokestagetwo', 1) 
+			exports.evolent_skills:addXp(playerId, 'coke', math.random(5,10))
 		elseif coke3 then
 			RemoveItem('cokestagethree', 1 ) 
 			RemoveItem('bakingsoda', 1 ) 
 			AddItem('loosecokestagethree', 1) 
+			exports.evolent_skills:addXp(playerId, 'coke', math.random(10,15))
 		else
 			Notifys(Lang.Coke.nocutcoke, "error")
 		end	
@@ -88,9 +97,10 @@ RegisterServerEvent('md-drugs:server:cutcokeone', function()
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:bagcoke', function()
+RegisterServerEvent('wrp-drugs:server:bagcoke', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+	local playerId = source
 	if not Itemcheck(Player, 'empty_coke_bag', 1, 'true') then return end
 	if Config.TierSystem then
 		local coke = Player.PlayerData.metadata['coke']
@@ -102,16 +112,19 @@ RegisterServerEvent('md-drugs:server:bagcoke', function()
 			RemoveItem('empty_coke_bag', 1) 
 			AddItem('cokebaggy', 1) 
 			Player.Functions.SetMetaData('coke',  (coke + 1))
+			exports.evolent_skills:addXp(playerId, 'coke', math.random(1,5))
 		elseif locoke2 then
 			RemoveItem('loosecokestagetwo', 1 ) 
 			RemoveItem('empty_coke_bag', 1) 
 			AddItem('cokebaggystagetwo', 1) 
 			Player.Functions.SetMetaData('coke',  (coke + 1))
+			exports.evolent_skills:addXp(playerId, 'coke', math.random(5,10))
 		elseif locoke3 then
 			RemoveItem('loosecokestagethree', 1 ) 
 			RemoveItem('empty_coke_bag', 1) 
 			AddItem('cokebaggystagethree', 1)
 			Player.Functions.SetMetaData('coke',  (coke + 1))
+			exports.evolent_skills:addXp(playerId, 'coke', math.random(10,15))
 		else
 			Notifys(Lang.Coke.nobagcoke, "error")
 		end

@@ -142,7 +142,7 @@ end
 
 function GetCops(number)
 	if number == 0 then return true end
-	QBCore.Functions.TriggerCallback('md-drugs:server:GetCoppers', function(amount)
+	QBCore.Functions.TriggerCallback('wrp-drugs:server:GetCoppers', function(amount)
 		
 		if amount >= number then return amount == true else Notify('You Need '.. number - amount .. ' More Cops To Do This', 'error') end
 	end)

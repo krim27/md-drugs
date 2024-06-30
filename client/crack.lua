@@ -4,7 +4,7 @@ local isMakingCrackActive = false
 local isBaggingCrackActive = false
 
 -- Register a client-side event for making crack
-RegisterNetEvent("md-drugs:client:makecrackone", function(data)
+RegisterNetEvent("wrp-drugs:client:makecrackone", function(data)
     -- Check if the progress bar is already active
     if isMakingCrackActive then 
 		lib.notify({
@@ -23,7 +23,7 @@ RegisterNetEvent("md-drugs:client:makecrackone", function(data)
 
     -- Perform the minigame check
     if not minigame(2, 8) then 
-        TriggerServerEvent("md-drugs:server:failcrackone", data.data)
+        TriggerServerEvent("wrp-drugs:server:failcrackone", data.data)
         return 
     end
 
@@ -37,14 +37,14 @@ RegisterNetEvent("md-drugs:client:makecrackone", function(data)
     end
 
     -- Trigger a server-side event to process making crack
-    TriggerServerEvent("md-drugs:server:makecrackone", data.data)
+    TriggerServerEvent("wrp-drugs:server:makecrackone", data.data)
 
     -- Reset the progress bar status after completion
     isMakingCrackActive = false
 end)
 
 -- Register a client-side event for bagging crack
-RegisterNetEvent("md-drugs:client:bagcrack", function(data)
+RegisterNetEvent("wrp-drugs:client:bagcrack", function(data)
     -- Check if the progress bar is already active
     if isBaggingCrackActive then 
 		lib.notify({
@@ -71,7 +71,7 @@ RegisterNetEvent("md-drugs:client:bagcrack", function(data)
     end
 
     -- Trigger a server-side event to process bagging crack
-    TriggerServerEvent("md-drugs:server:bagcrack", data.data)
+    TriggerServerEvent("wrp-drugs:server:bagcrack", data.data)
 
     -- Reset the progress bar status after completion
     isBaggingCrackActive = false

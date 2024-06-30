@@ -51,7 +51,7 @@ RegisterNetEvent("coke:init", function()
                     icon = 'fa-solid fa-leaf',
                     onSelect = function()
                         if not progressbar(Lang.Coke.picking, 8000, 'garden') then  return end
-                         TriggerServerEvent("coke:pickupCane", k)
+                        TriggerServerEvent("coke:pickupCane", k)
                     end,
                     canInteract = function ()
                         local item = QBCore.Functions.HasItem('trowel')
@@ -90,7 +90,7 @@ end)
 
 
 -- Register a client-side event for making powder from coca leaves
-RegisterNetEvent("md-drugs:client:makepowder", function(data)
+RegisterNetEvent("wrp-drugs:client:makepowder", function(data)
     -- Check if the progress bar is already active
     if isProgressActive then 
         lib.notify({
@@ -117,7 +117,7 @@ RegisterNetEvent("md-drugs:client:makepowder", function(data)
     end
     
     -- Trigger a server-side event to process making powder
-    TriggerServerEvent("md-drugs:server:makepowder", data.data)
+    TriggerServerEvent("wrp-drugs:server:makepowder", data.data)
     
     -- Reset the progress bar status after completion
     isProgressActive = false
@@ -129,7 +129,7 @@ local isCuttingCokeActive = false
 local isBaggingCokeActive = false
 
 -- Register a client-side event for cutting coke
-RegisterNetEvent("md-drugs:client:cutcokeone", function()
+RegisterNetEvent("wrp-drugs:client:cutcokeone", function()
     -- Check if the progress bar is already active
     if isCuttingCokeActive then 
         lib.notify({
@@ -160,14 +160,14 @@ RegisterNetEvent("md-drugs:client:cutcokeone", function()
     end
 
     -- Trigger a server-side event to process cutting coke
-    TriggerServerEvent("md-drugs:server:cutcokeone")
+    TriggerServerEvent("wrp-drugs:server:cutcokeone")
 
     -- Reset the progress bar status after completion
     isCuttingCokeActive = false
 end)
 
 -- Register a client-side event for bagging coke
-RegisterNetEvent("md-drugs:client:bagcoke", function() 
+RegisterNetEvent("wrp-drugs:client:bagcoke", function() 
     -- Check if the progress bar is already active
     if isBaggingCokeActive then 
         lib.notify({
@@ -198,7 +198,7 @@ RegisterNetEvent("md-drugs:client:bagcoke", function()
     end
 
     -- Trigger a server-side event to process bagging coke
-    TriggerServerEvent("md-drugs:server:bagcoke")
+    TriggerServerEvent("wrp-drugs:server:bagcoke")
 
     -- Reset the progress bar status after completion
     isBaggingCokeActive = false
@@ -207,13 +207,13 @@ end)
 
 CreateThread(function()
 	local options = {
-		{ type = "client", event = "md-drugs:client:cutcokeone", icon = "fas fa-sign-in-alt", label = "cut up", canInteract = function()
+		{ type = "client", event = "wrp-drugs:client:cutcokeone", icon = "fas fa-sign-in-alt", label = "cut up", canInteract = function()
 				if cuttingcoke == nil and baggingcoke == nil then return true end
 			end			
 		},
 	}
     local options2 = {
-		{ type = "client", event = "md-drugs:client:bagcoke", icon = "fas fa-sign-in-alt", label = "bagging", canInteract = function()
+		{ type = "client", event = "wrp-drugs:client:bagcoke", icon = "fas fa-sign-in-alt", label = "bagging", canInteract = function()
 				if baggingcoke == nil and cuttingcoke == nil then return true end end }, }
     if Config.oxtarget then
         exports.interact:AddInteraction({
@@ -224,19 +224,23 @@ CreateThread(function()
             name = "cutcokepowder", -- optional
             options = {
                 {
-                    event = "md-drugs:client:cutcokeone",
+                    action = function()
+                        TriggerEvent('wrp-drugs:client:cutcokeone')
+                    end,
                     label = "cut up", 
                     canInteract = function()
+                        
                         local item1 = QBCore.Functions.HasItem('bakingsoda')
                         local item2 = QBCore.Functions.HasItem('coke')
                         local item3 = QBCore.Functions.HasItem('cokestagetwo')
                         local item4 = QBCore.Functions.HasItem('cokestagethree')
-                        
+                    
                         if item1 and (item2 or item3 or item4) then
                             return true
                         else
                             return false
                         end
+                        
                     end
                     
                 },
@@ -251,7 +255,9 @@ CreateThread(function()
             name = "bagcokepowder", -- optional
             options = {
                 {
-                    event = "md-drugs:client:bagcoke",
+                    action = function()
+                        TriggerEvent('wrp-drugs:client:bagcoke')
+                    end,
                     label = "bagging", 
                     canInteract = function()
                         local item1 = QBCore.Functions.HasItem('empty_coke_bag')
@@ -279,7 +285,7 @@ CreateThread(function()
         for k, v in pairs (Config.CuttingCoke) do 
             if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
              local options = {
-                {	type = "client",	event = "md-drugs:client:cutcokeone",	icon = "fas fa-sign-in-alt",	label = "Cut Coke", data = k,  distance = 2.0,
+                {	type = "client",	event = "wrp-drugs:client:cutcokeone",	icon = "fas fa-sign-in-alt",	label = "Cut Coke", data = k,  distance = 2.0,
                     canInteract = function()
                         if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
                 },
@@ -301,7 +307,7 @@ CreateThread(function()
         for k, v in pairs (Config.BaggingCoke) do 
             if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
              local options = {
-                {	type = "client",	event = "md-drugs:client:bagcoke",	icon = "fas fa-sign-in-alt",	label = "Bag Coke", data = k,  distance = 2.0,
+                {	type = "client",	event = "wrp-drugs:client:bagcoke",	icon = "fas fa-sign-in-alt",	label = "Bag Coke", data = k,  distance = 2.0,
                     canInteract = function()
                         if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
                 },

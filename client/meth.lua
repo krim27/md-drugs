@@ -7,7 +7,7 @@ local active = nil
 local function startcook()
 	if amonia == nil then
 		active = true
-		TriggerServerEvent("md-drugs:server:startcook")
+		TriggerServerEvent("wrp-drugs:server:startcook")
 		MethCooking()
 		amonia = true
 	else
@@ -50,7 +50,29 @@ if tray then
 				tray = nil
 				active = nil
 				BagMeth()
-				TriggerServerEvent('md-drugs:server:getmeth')
+				TriggerServerEvent('wrp-drugs:server:getmeth')
+				
+			end,
+			canInteract = function()
+				local item = QBCore.Functions.HasItem('empty_meth_bag')
+				if item then return true end
+			end,
+
+		}
+	}
+	local optionsox = {
+		{
+			name = 'bucket',
+			icon = 'fa-solid fa-car',
+			label = 'Bag Meth',
+			onSelect = function()
+				DeleteObject(bucket)
+				amonia = nil
+				heated = nil
+				tray = nil
+				active = nil
+				BagMeth()
+				TriggerServerEvent('wrp-drugs:server:getmeth')
 				
 			end,
 			canInteract = function()
@@ -61,17 +83,7 @@ if tray then
 		}
 	}
 	if Config.oxtarget then
-		exports.interact:AddLocalEntityInteraction({
-			entity = bucket,
-			name = 'bucket', -- optional
-			id = 'bucket', -- needed for removing interactions
-			distance = 4.0, -- optional
-			interactDst = 2.0, -- optional
-			ignoreLos = false, -- optional ignores line of sight
-			offset = vec3(0.0, 0.0, 0.0), -- optional
-			options = options
-		})
-        --exports.ox_target:addLocalEntity(bucket,  optionsox)
+        exports.ox_target:addLocalEntity(bucket,  optionsox)
     else 
 	    exports['qb-target']:AddTargetEntity(bucket, {options = options, distance = 2.0})
     end   
@@ -115,9 +127,48 @@ CreateThread(function()
 		options = {
 			 {
 				label = 'Enter Building',
-				action = function()	
-					SetEntityCoords(PlayerPedId(), Config.MethTeleOut)	
-				end
+				action = function()
+					-- Fade out the screen
+					DoScreenFadeOut(500)
+					-- Wait for the fade out to complete
+					Wait(500)
+					
+					-- Teleport the player to the specified coordinates
+					local playerPed = PlayerPedId()
+					local teleportCoords = Config.MethTeleOut
+				
+					-- Ensure that the coordinates are valid
+					if teleportCoords then
+						-- Set the player's ped to not be in any vehicle
+						if IsPedInAnyVehicle(playerPed, false) then
+							TaskLeaveVehicle(playerPed, GetVehiclePedIsIn(playerPed, false), 16)
+							Wait(500)
+						end
+				
+						-- Freeze the player to avoid falling animation
+						FreezeEntityPosition(playerPed, true)
+						SetEntityCoords(playerPed, teleportCoords.x, teleportCoords.y, teleportCoords.z) -- Adjust Z-coordinate slightly
+						Wait(1000) -- Give it some time for teleportation to complete
+				
+						-- Unfreeze the player
+						FreezeEntityPosition(playerPed, false)
+				
+						-- Reset the player's state to avoid the falling over animation
+						ClearPedTasksImmediately(playerPed)
+					else
+						print("Teleport coordinates are not set in the configuration.")
+					end
+				
+					-- Wait for a moment before fading back in
+					Wait(500)
+					
+					-- Fade the screen back in
+					DoScreenFadeIn(500)
+				end,
+				canInteract = function()
+					local item = QBCore.Functions.HasItem('meth_access')
+					return item
+				end,
 			},
 		}
 	})
@@ -130,9 +181,48 @@ CreateThread(function()
 		options = {
 			 {
 				label = 'Exit Building',
-				action = function() 	
-					SetEntityCoords(PlayerPedId(), Config.MethTeleIn) 
-				end
+				action = function()
+					-- Fade out the screen
+					DoScreenFadeOut(500)
+					-- Wait for the fade out to complete
+					Wait(500)
+					
+					-- Teleport the player to the specified coordinates
+					local playerPed = PlayerPedId()
+					local teleportCoords = Config.MethTeleIn
+				
+					-- Ensure that the coordinates are valid
+					if teleportCoords then
+						-- Set the player's ped to not be in any vehicle
+						if IsPedInAnyVehicle(playerPed, false) then
+							TaskLeaveVehicle(playerPed, GetVehiclePedIsIn(playerPed, false), 16)
+							Wait(500)
+						end
+				
+						-- Freeze the player to avoid falling animation
+						FreezeEntityPosition(playerPed, true)
+						SetEntityCoords(playerPed, teleportCoords.x, teleportCoords.y, teleportCoords.z) -- Adjust Z-coordinate slightly
+						Wait(1000) -- Give it some time for teleportation to complete
+				
+						-- Unfreeze the player
+						FreezeEntityPosition(playerPed, false)
+				
+						-- Reset the player's state to avoid the falling over animation
+						ClearPedTasksImmediately(playerPed)
+					else
+						print("Teleport coordinates are not set in the configuration.")
+					end
+				
+					-- Wait for a moment before fading back in
+					Wait(500)
+					
+					-- Fade the screen back in
+					DoScreenFadeIn(500)
+				end,
+				canInteract = function()
+					local item = QBCore.Functions.HasItem('meth_access')
+					return item
+				end,
 			},
 		}
 	})
@@ -222,7 +312,7 @@ CreateThread(function()
 				options = {
 					 {
 						label = 'Steal Ephedrine',
-						event = 'md-drugs:client:stealeph',
+						event = 'wrp-drugs:client:stealeph',
 						data = k,
 						canInteract = function()
 							if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
@@ -241,7 +331,7 @@ CreateThread(function()
 				options = {
 					 {
 						label = 'Steal Acetone',
-						event = 'md-drugs:client:stealace',
+						event = 'wrp-drugs:client:stealace',
 						data = k,
 						canInteract = function()
 							if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
@@ -276,14 +366,14 @@ else
 	})
 end
 end)
-RegisterNetEvent("md-drugs:client:stealeph", function(data)
+RegisterNetEvent("wrp-drugs:client:stealeph", function(data)
 	if not progressbar('Stealing Ephedrine', 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:geteph", data.data)
+	TriggerServerEvent("wrp-drugs:server:geteph", data.data)
 end)
 
-RegisterNetEvent("md-drugs:client:stealace", function(data)
+RegisterNetEvent("wrp-drugs:client:stealace", function(data)
 	if not progressbar('Stealing Acetone', 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:getace", data.data)
+	TriggerServerEvent("wrp-drugs:server:getace", data.data)
 end)
 
 

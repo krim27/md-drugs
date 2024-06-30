@@ -1,18 +1,18 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent('md-drugs:server:payfortruck', function()
+RegisterServerEvent('wrp-drugs:server:payfortruck', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
 	if Player.Functions.RemoveMoney('cash', Config.TruckPrice ) or Player.Functions.RemoveMoney('bank', Config.TruckPrice ) then
-		TriggerClientEvent("md-drugs:Client:getoxylocation", src)
+		TriggerClientEvent("wrp-drugs:Client:getoxylocation", src)
 	else
 		Notifys(Lang.oxy.broke, "error")
 	end
 end)
 
 
-RegisterServerEvent('md-drugs:server:giveoxybox', function()
+RegisterServerEvent('wrp-drugs:server:giveoxybox', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local chance = math.random(1,100)
@@ -28,7 +28,7 @@ RegisterServerEvent('md-drugs:server:giveoxybox', function()
 		end	
 	else
 		Notifys(Lang.oxy.next, "success")
-		TriggerClientEvent("md-drugs:client:getoxylocationroute", src)
+		TriggerClientEvent("wrp-drugs:client:getoxylocationroute", src)
 		Player.Functions.AddMoney("cash", cash)
 		if itemchance <= Config.OxyItemChance then 
 			AddItem(item, Config.OxyItemAmount)

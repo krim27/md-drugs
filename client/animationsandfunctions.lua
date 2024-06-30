@@ -505,7 +505,7 @@ else
 					label = 'Steal From Car',
 					onSelect = function()
 						 if not minigame(2,8) then return end
-						TriggerServerEvent('md-drugs:server:givelean')
+						TriggerServerEvent('wrp-drugs:server:givelean')
 						started = nil
 						if math.random(1,100) <= 30 then
 							DeleteVehicle(leancar)
@@ -525,7 +525,7 @@ else
     		           label = 'Steal From Car',
     		           action = function()
 							if not minigame(2,8) then return end
-    		               TriggerServerEvent('md-drugs:server:givelean')
+    		               TriggerServerEvent('wrp-drugs:server:givelean')
     		               started = nil
     		               if math.random(1,100) <= 30 then
     		                   DeleteVehicle(leancar)
@@ -593,7 +593,7 @@ else
 					label = 'Steal From Car',
 					onSelect = function()
 						 if not minigame(2,8) then return end
-						 TriggerServerEvent('md-drugs:server:givemethingridients')
+						 TriggerServerEvent('wrp-drugs:server:givemethingridients')
 						 startedmeth = nil
 						if math.random(1,100) <= 30 then
 							DeleteVehicle(methcar)
@@ -613,7 +613,7 @@ else
     		           label = 'Steal From Car',
     		           action = function()
 						if not minigame(2,8) then return end
-						TriggerServerEvent('md-drugs:server:givemethingridients')
+						TriggerServerEvent('wrp-drugs:server:givemethingridients')
 						startedmeth = nil
 					    if math.random(1,100) <= 30 then
 						   DeleteVehicle(methcar)

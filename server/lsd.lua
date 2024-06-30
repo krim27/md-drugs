@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent('md-drugs:server:getlysergic', function(num)
+RegisterServerEvent('wrp-drugs:server:getlysergic', function(num)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local playerPed = GetPlayerPed(source)
@@ -10,7 +10,7 @@ local playerPed = GetPlayerPed(source)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:getdiethylamide', function(num)
+RegisterServerEvent('wrp-drugs:server:getdiethylamide', function(num)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local playerPed = GetPlayerPed(source)
@@ -25,23 +25,23 @@ QBCore.Functions.CreateUseableItem('lsdlabkit', function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
-	if TriggerClientEvent("md-drugs:client:setlsdlabkit", src) then
+	if TriggerClientEvent("wrp-drugs:client:setlsdlabkit", src) then
 		Player.Functions.RemoveItem("lsdlabkit", 1)
 	end
 end)	
 
 
-RegisterServerEvent('md-drugs:server:removecleaningkit', function(data)
+RegisterServerEvent('wrp-drugs:server:removecleaningkit', function(data)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)	
 	if not Itemcheck(Player, 'cleaningkit', 1, 'true') then return end
 	if RemoveItem("cleaningkit", 1) then 
 		Notifys(Lang.lsd.cleaned, "success")
-		TriggerClientEvent("md-drugs:client:resetlsdkit", src, data)
+		TriggerClientEvent("wrp-drugs:client:resetlsdkit", src, data)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:getlabkitback', function()
+RegisterServerEvent('wrp-drugs:server:getlabkitback', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 	
@@ -50,7 +50,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:heatliquid', function()
+RegisterServerEvent('wrp-drugs:server:heatliquid', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 	if not Itemcheck(Player, 'lysergic_acid', 1, 'true') then return end
@@ -61,7 +61,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 		Notifys(Lang.lsd.madelsd, "success")
 end)
 
-RegisterServerEvent('md-drugs:server:failheating', function()
+RegisterServerEvent('wrp-drugs:server:failheating', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
@@ -71,7 +71,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 end)
 
 
-RegisterServerEvent('md-drugs:server:refinequalityacid', function()
+RegisterServerEvent('wrp-drugs:server:refinequalityacid', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local randomchance = math.random(1,100)
@@ -119,7 +119,7 @@ if not Itemcheck(Player, 'lsd_one_vial', 1, 'true') then return end
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:failrefinequality', function()
+RegisterServerEvent('wrp-drugs:server:failrefinequality', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local randomchance = math.random(1,100)
@@ -131,7 +131,7 @@ if not Itemcheck(Player, 'lsd_one_vial', 1, 'true') then return end
 end)
 
 
-RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
+RegisterServerEvent('wrp-drugs:server:gettabpaper', function(num)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -143,7 +143,7 @@ RegisterServerEvent('md-drugs:server:gettabpaper', function(num)
 	end
 end)
  
-RegisterServerEvent('md-drugs:server:getlabkit', function()
+RegisterServerEvent('wrp-drugs:server:getlabkit', function()
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -158,7 +158,7 @@ end)
 
 
 
-RegisterServerEvent('md-drugs:server:maketabpaper', function()
+RegisterServerEvent('wrp-drugs:server:maketabpaper', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 	if not Itemcheck(Player, 'tab_paper', 1, 'true') then return end

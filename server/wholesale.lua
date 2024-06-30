@@ -8,10 +8,10 @@ local xtc = {"white_playboys",  "white_playboys2",  "white_playboys3",  "white_p
 QBCore.Functions.CreateUseableItem("cokeburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
-		TriggerClientEvent("md-drugs:client:GetLocation", src, 'coke', "Bring Me All The Coke You Have")
+		TriggerClientEvent("wrp-drugs:client:GetLocation", src, 'coke', "Bring Me All The Coke You Have")
 end)
  
-RegisterServerEvent('md-drugs:server:wholesalecoke', function()	
+RegisterServerEvent('wrp-drugs:server:wholesalecoke', function()	
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local price = math.random(Config.Wcoke.min, Config.Wcoke.max)
@@ -32,10 +32,10 @@ QBCore.Functions.CreateUseableItem("crackburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
 	
-	TriggerClientEvent("md-drugs:client:GetLocation", src, 'crack', "Bring Me All The Crack You Have")
+	TriggerClientEvent("wrp-drugs:client:GetLocation", src, 'crack', "Bring Me All The Crack You Have")
 end)
 
-RegisterServerEvent('md-drugs:server:wholesalecrack', function()
+RegisterServerEvent('wrp-drugs:server:wholesalecrack', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local price = math.random(Config.Wcrack.min, Config.Wcrack.max)
@@ -55,11 +55,11 @@ QBCore.Functions.CreateUseableItem("lsdburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
 	
-	TriggerClientEvent("md-drugs:client:GetLocation", src, 'lsd', "Bring Me All The lsd You Have")
+	TriggerClientEvent("wrp-drugs:client:GetLocation", src, 'lsd', "Bring Me All The lsd You Have")
     
 end)
 
-RegisterServerEvent('md-drugs:server:wholesalelsd', function()
+RegisterServerEvent('wrp-drugs:server:wholesalelsd', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local price = math.random(Config.Wlsd.min, Config.Wlsd.max)
@@ -80,10 +80,10 @@ QBCore.Functions.CreateUseableItem("heroinburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
 	
-	TriggerClientEvent("md-drugs:client:GetLocation", src, 'heroin', "Bring Me All The Heroin You Have")
+	TriggerClientEvent("wrp-drugs:client:GetLocation", src, 'heroin', "Bring Me All The Heroin You Have")
 end)
 
-RegisterServerEvent('md-drugs:server:wholesaleheroin', function()
+RegisterServerEvent('wrp-drugs:server:wholesaleheroin', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local price = math.random(Config.WHeroin.min, Config.WHeroin.max)
@@ -104,10 +104,10 @@ QBCore.Functions.CreateUseableItem("xtcburner", function(source, item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
 	
-	TriggerClientEvent("md-drugs:client:GetLocation", src, 'xtc', "Bring Me All The xtc You Have")
+	TriggerClientEvent("wrp-drugs:client:GetLocation", src, 'xtc', "Bring Me All The xtc You Have")
 end)
 
-RegisterServerEvent('md-drugs:server:wholesalextc', function()
+RegisterServerEvent('wrp-drugs:server:wholesalextc', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local price = math.random(Config.WXTC.min, Config.WXTC.max)
@@ -124,7 +124,7 @@ RegisterServerEvent('md-drugs:server:wholesalextc', function()
 end)
 
 
-RegisterServerEvent('md-drugs:server:RemoveBurner', function(item)
+RegisterServerEvent('wrp-drugs:server:RemoveBurner', function(item)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 

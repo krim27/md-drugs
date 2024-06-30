@@ -3,13 +3,13 @@ local deliveryBlip = nil
 local carryPackage = nil
 
 
-RegisterNetEvent("md-drugs:client:getoxytruck", function() 
-if TriggerServerEvent('md-drugs:server:payfortruck') then
+RegisterNetEvent("wrp-drugs:client:getoxytruck", function() 
+if TriggerServerEvent('wrp-drugs:server:payfortruck') then
 end
 end)
 
 
-RegisterNetEvent("md-drugs:Client:getoxylocation", function()
+RegisterNetEvent("wrp-drugs:Client:getoxylocation", function()
 	local coords = Config.truckspawn
 	local ModelHash = "burrito3" -- Use Compile-time hashes to get the hash of this model
 	lib.requestModel(ModelHash, Config.RequestModelTime)
@@ -18,10 +18,10 @@ RegisterNetEvent("md-drugs:Client:getoxylocation", function()
     exports[Config.Fuel]:SetFuel(oxycar, 100.0)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(oxycar))
 	Notify(Lang.oxy.truck, 'success')
-	TriggerEvent("md-drugs:client:getoxylocationroute")
+	TriggerEvent("wrp-drugs:client:getoxylocationroute")
     SetVehicleEngineOn(oxycar, true, true)
     local options = {
-        { event = "md-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = "Get Package"},
+        { event = "wrp-drugs:client:getfromtrunk", icon = "fas fa-box-circle-check", label = "Get Package"},
     }
 	if Config.oxtarget then
 		exports.ox_target:addLocalEntity(oxycar, options)
@@ -33,7 +33,7 @@ end)
 
 
 
-RegisterNetEvent("md-drugs:client:getoxylocationroute", function() 
+RegisterNetEvent("wrp-drugs:client:getoxylocationroute", function() 
 	Wait(100)
 	local unlucky = math.random(1,100)
     local CurrentLocation = Config.oxylocations[math.random(#Config.oxylocations)]
@@ -65,7 +65,7 @@ RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
 		RemoveBlip(deliveryBlip)
 		PoliceCall(Config.PoliceAlertOxy)
 		local options = {
-    	        { type = "client", label = "Talk To Buyer", icon = "fas fa-eye", event = "md-drugs:client:giveoxybox", ped = oxybuyer},
+    	        { type = "client", label = "Talk To Buyer", icon = "fas fa-eye", event = "wrp-drugs:client:giveoxybox", ped = oxybuyer},
     	    }
 		if Config.oxtarget then
 			exports.interact:AddLocalEntityInteraction({
@@ -85,7 +85,7 @@ RegisterNetEvent("md-drugs:client:getoxylocationroute", function()
 end)
 
 
-RegisterNetEvent("md-drugs:client:getfromtrunk", function() 
+RegisterNetEvent("wrp-drugs:client:getfromtrunk", function() 
 	if carryPackage then
 		Notify(Lang.oxy.cantcarry, "error")
 	else	
@@ -106,10 +106,10 @@ RegisterNetEvent("md-drugs:client:getfromtrunk", function()
 end)
 
 
-RegisterNetEvent("md-drugs:client:giveoxybox", function(data) 
+RegisterNetEvent("wrp-drugs:client:giveoxybox", function(data) 
 	if carryPackage then
 		if not progressbar(Lang.oxy.hand, 4000, 'uncuff') then return end
-		TriggerServerEvent("md-drugs:server:giveoxybox")
+		TriggerServerEvent("wrp-drugs:server:giveoxybox")
 		DeleteEntity(data.ped)
 		DetachEntity(carryPackage, true, true)
 		DeleteObject(carryPackage)

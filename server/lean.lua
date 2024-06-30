@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent('md-drugs:server:givelean', function()
+RegisterServerEvent('wrp-drugs:server:givelean', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local chance = math.random(1,100)

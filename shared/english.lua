@@ -152,7 +152,10 @@ Lang.Weed = {
     nodry = 'You Need Wet Cannabis To Dry',
     noweed = 'Cant Roll A Blunt With Air',
     noshat = 'You Need Shatter To Do A Dab',
-    notorch = 'You Need A butane Torch'
+    notorch = 'You Need A butane Torch',
+    bagweed = 'Bagging Cannabis',
+    makeweed = 'Cannabis Bagged',
+    noweed2 = 'You Cant Make This Without Dry Cannabis'
 }
 
 Lang.xtc = {

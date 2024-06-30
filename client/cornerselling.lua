@@ -14,7 +14,7 @@ function Cornersell()
     lib.requestAnimDict("rcmme_tracey1")
     TaskStartScenarioInPlace(targ, "WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT", 0, false)
     FreezeEntityPosition(targ, true)
-    QBCore.Functions.TriggerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(item, amount)
+    QBCore.Functions.TriggerCallback('wrp-drugs:server:cornerselling:getAvailableDrugs', function(item, amount)
         if item == 'nothing' then Notify(' You Aint Got Shit', 'error') sell = false  FreezeEntityPosition(targ, false)  ClearPedTasks(targ) return false end
             local bagAmount = math.random(1, amount)
             if bagAmount > 15 then bagAmount = math.random(1,15) end
@@ -37,7 +37,7 @@ function Cornersell()
                             sell = false
                         return end
                         if not progressbar('Selling ' .. QBCore.Shared.Items[item].label .. '!', 4000, 'uncuff') then return end
-                        TriggerServerEvent('md-drugs:server:sellCornerDrugs', item, bagAmount, price)
+                        TriggerServerEvent('wrp-drugs:server:sellCornerDrugs', item, bagAmount, price)
                         FreezeEntityPosition(targ, false)
                         ClearPedTasks(targ)
                         Wait(10000)
@@ -83,7 +83,7 @@ function Cornersell()
                             sell = false
                         return end
                         if not progressbar('Selling ' .. QBCore.Shared.Items[item].label .. '!', 4000, 'uncuff') then return end
-                        TriggerServerEvent('md-drugs:server:sellCornerDrugs', item, bagAmount, price)
+                        TriggerServerEvent('wrp-drugs:server:sellCornerDrugs', item, bagAmount, price)
                         FreezeEntityPosition(targ, false)
                         ClearPedTasks(targ)
                         Wait(10000)
@@ -125,9 +125,9 @@ function Cornersell()
     if sold then sold = false return true end
 end
 
-RegisterNetEvent('md-drugs:client:cornerselling', function()
+RegisterNetEvent('wrp-drugs:client:cornerselling', function()
     if not GetCops(QBConfig.MinimumDrugSalePolice) then return end
-    QBCore.Functions.TriggerCallback('md-drugs:server:cornerselling:getAvailableDrugs', function(item, amount)
+    QBCore.Functions.TriggerCallback('wrp-drugs:server:cornerselling:getAvailableDrugs', function(item, amount)
     if item ~= 'nothing' then
         if sell then 
             Notify('Lazy Ass Cant Even Sell Drugs', 'error')

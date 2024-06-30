@@ -4,18 +4,18 @@ QBCore.Functions.CreateUseableItem('prescription_pad', function(source, item)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	if Player.PlayerData.job.type == 'ems' then 
-		TriggerClientEvent("md-drugs:client:prescriptionpad", src, item)
+		TriggerClientEvent("wrp-drugs:client:prescriptionpad", src, item)
 	end	
 end)
 
-RegisterServerEvent('md-drugs:server:giveprescription', function(item)
+RegisterServerEvent('wrp-drugs:server:giveprescription', function(item)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	Player.Functions.AddItem(item, 1)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[item], "add", 1)
 end)
 
-RegisterServerEvent('md-drugs:server:unbottle', function(item)
+RegisterServerEvent('wrp-drugs:server:unbottle', function(item)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	local amount = math.random(10,30)
@@ -29,7 +29,7 @@ QBCore.Functions.CreateUseableItem(d, function(source, item)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	if Player.Functions.RemoveItem(d, 1) then
-		TriggerClientEvent("md-drugs:client:unbottle", src, item)
+		TriggerClientEvent("wrp-drugs:client:unbottle", src, item)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[d], "remove", 1)
 	end	
 end)
@@ -40,14 +40,14 @@ for k, v in pairs (pharmadrugs) do QBCore.Functions.CreateUseableItem(v, functio
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
-if TriggerClientEvent('md-drugs:client:takepharma', src, item.name) then
+if TriggerClientEvent('wrp-drugs:client:takepharma', src, item.name) then
 	Player.Functions.RemoveItem(item.name, 1)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[item.name], "remove", 1)
 	
 	end
 end)
 end
-RegisterServerEvent('md-drugs:server:fillprescription', function()
+RegisterServerEvent('wrp-drugs:server:fillprescription', function()
 	local src = source
     	local Player = QBCore.Functions.GetPlayer(src)
 	local vic = Player.Functions.GetItemByName('vicodin_prescription')

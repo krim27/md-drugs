@@ -32,33 +32,6 @@ local function loadParticle(dict)
     end
     SetPtfxAssetNextCall(dict)
 end
-CreateThread(function() 
-local Ped = "g_m_y_famdnf_01"
-	lib.requestModel("g_m_y_famdnf_01", Config.RequestModelTime)
-	local labkitlocation = Config.buyheroinlabkit
-	local heroinkitdealer = CreatePed(0, Ped, labkitlocation.x, labkitlocation.y, labkitlocation.z-1, labkitlocation.w, false, false)
-    SetBlockingOfNonTemporaryEvents(heroinkitdealer,true)
-    FreezeEntityPosition(heroinkitdealer, true)
-    SetEntityInvincible(heroinkitdealer, true)
-    local options = {
-        { label = "Buy Heroin Lab Kit", icon = "fas fa-eye", event = "md-drugs:client:buyheroinlabkit", distance = 2.0},
-    } 
-    if Config.oxtarget then
-        exports.interact:AddLocalEntityInteraction({
-            entity = heroinkitdealer,
-            name = 'heroinkitdealer', -- optional
-            id = 'heroinkitdealer', -- needed for removing interactions
-            distance = 4.0, -- optional
-            interactDst = 2.0, -- optional
-            ignoreLos = false, -- optional ignores line of sight
-            offset = vec3(0.0, 0.0, 0.0), -- optional
-            options = options
-        })
-        --exports.ox_target:addLocalEntity(heroinkitdealer, options)
-    else
-	    exports['qb-target']:AddTargetEntity(heroinkitdealer, { options = options, distance = 2.0})
-    end    
-end)
 
 -- Register a client-side event for respawning poppy plants
 RegisterNetEvent('heroin:respawnCane', function(loc)
@@ -204,7 +177,7 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 
 -- Register a client-side event for drying plant
-RegisterNetEvent("md-drugs:client:dryplant", function(data) 
+RegisterNetEvent("wrp-drugs:client:dryplant", function(data) 
     -- Check if the progress bar is already active
     if isDryingPlantActive then 
         lib.notify({
@@ -226,14 +199,14 @@ RegisterNetEvent("md-drugs:client:dryplant", function(data)
     end
 
     -- Trigger a server-side event to process drying plant
-    TriggerServerEvent("md-drugs:server:dryplant", data.data)
+    TriggerServerEvent("wrp-drugs:server:dryplant", data.data)
 
     -- Reset the progress bar status after completion
     isDryingPlantActive = false
 end)
 
 -- Register a client-side event for cutting heroin
-RegisterNetEvent("md-drugs:client:cutheroin", function(data) 
+RegisterNetEvent("wrp-drugs:client:cutheroin", function(data) 
     -- Check if the progress bar is already active
     if isCuttingHeroinActive then 
         lib.notify({
@@ -260,14 +233,14 @@ RegisterNetEvent("md-drugs:client:cutheroin", function(data)
     end
 
     -- Trigger a server-side event to process cutting heroin
-    TriggerServerEvent("md-drugs:server:cutheroin", data.data)
+    TriggerServerEvent("wrp-drugs:server:cutheroin", data.data)
 
     -- Reset the progress bar status after completion
     isCuttingHeroinActive = false
 end)
 
 -- Register a client-side event for buying heroin lab kit
-RegisterNetEvent("md-drugs:client:buyheroinlabkit", function()
+RegisterNetEvent("wrp-drugs:client:buyheroinlabkit", function()
     -- Check if the progress bar is already active
     if isBuyingHeroinLabKitActive then 
         lib.notify({
@@ -289,7 +262,7 @@ RegisterNetEvent("md-drugs:client:buyheroinlabkit", function()
     end
 
     -- Trigger a server-side event to process buying heroin lab kit
-    TriggerServerEvent("md-drugs:server:getheroinlabkit")
+    TriggerServerEvent("wrp-drugs:server:getheroinlabkit")
 
     -- Reset the progress bar status after completion
     isBuyingHeroinLabKitActive = false
@@ -344,8 +317,8 @@ function DeleteObject(obj)
 end
 
 -- Register the event for setting the Heroin lab kit
-RegisterNetEvent("md-drugs:client:setheroinlabkit")
-AddEventHandler("md-drugs:client:setheroinlabkit", function()
+RegisterNetEvent("wrp-drugs:client:setheroinlabkit")
+AddEventHandler("wrp-drugs:client:setheroinlabkit", function()
     local herointable = false -- Track if heroin lab kit is placed
     if herointable then 
         Notify(Lang.Heroin.tableout, 'error')
@@ -396,7 +369,7 @@ AddEventHandler("md-drugs:client:setheroinlabkit", function()
                     -- Define interaction options
                     local options = {
                         {
-                            event = "md-drugs:client:heatliquidheroin",
+                            event = "wrp-drugs:client:heatliquidheroin",
                             icon = "fa-solid fa-fire-flame-curved",
                             label = "Cook Heroin",
                             data = heroinlabkit,
@@ -409,7 +382,7 @@ AddEventHandler("md-drugs:client:setheroinlabkit", function()
                             end
                         },
                         {
-                            event = "md-drugs:client:getheroinkitback",
+                            event = "wrp-drugs:client:getheroinkitback",
                             icon = "fa-solid fa-hand",
                             label = "Pick Up",
                             data = heroinlabkit,
@@ -440,7 +413,7 @@ AddEventHandler("md-drugs:client:setheroinlabkit", function()
                 if previewObject then
                     DeleteObject(previewObject)
                     previewObject = nil
-                    TriggerServerEvent("md-drugs:server:getheroinlabkitback")
+                    TriggerServerEvent("wrp-drugs:server:getheroinlabkitback")
                 end
                 break
             end
@@ -451,7 +424,7 @@ AddEventHandler("md-drugs:client:setheroinlabkit", function()
 end)
 
 -- Register a client-side event for heating liquid heroin
-RegisterNetEvent("md-drugs:client:heatliquidheroin", function(data) 
+RegisterNetEvent("wrp-drugs:client:heatliquidheroin", function(data) 
     -- Check if the progress bar is already active
     if isHeatingLiquidHeroinActive then 
         lib.notify({
@@ -472,7 +445,7 @@ RegisterNetEvent("md-drugs:client:heatliquidheroin", function(data)
 
     -- Perform the minigame check
     if not minigame(2, 8) then
-        TriggerServerEvent("md-drugs:server:failheatingheroin")
+        TriggerServerEvent("wrp-drugs:server:failheatingheroin")
         DeleteObject(data.data)
         Wait(100)
         local dirtylabkitheroin = CreateObject("v_ret_ml_tablea", PedCoords.x + 1, PedCoords.y + 1, PedCoords.z - 1, true, true, true)
@@ -482,7 +455,7 @@ RegisterNetEvent("md-drugs:client:heatliquidheroin", function(data)
         SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
         local options = {
             {
-                event = "md-drugs:client:cleanheroinlabkit",
+                event = "wrp-drugs:client:cleanheroinlabkit",
                 icon = "fas fa-box-circle-check",
                 label = "Clean It",
                 data = dirtylabkitheroin,
@@ -514,14 +487,14 @@ RegisterNetEvent("md-drugs:client:heatliquidheroin", function(data)
     end
 
     -- Trigger a server-side event to process heating liquid heroin
-    TriggerServerEvent("md-drugs:server:heatliquidheroin")
+    TriggerServerEvent("wrp-drugs:server:heatliquidheroin")
 
     -- Reset the progress bar status after completion
     isHeatingLiquidHeroinActive = false
 end)
 
 -- Register a client-side event for cleaning heroin lab kit
-RegisterNetEvent("md-drugs:client:cleanheroinlabkit", function(data)
+RegisterNetEvent("wrp-drugs:client:cleanheroinlabkit", function(data)
     -- Check if the progress bar is already active
     if isCleaningHeroinLabKitActive then 
         lib.notify({
@@ -548,22 +521,22 @@ RegisterNetEvent("md-drugs:client:cleanheroinlabkit", function(data)
     end
 
     -- Trigger a server-side event to process cleaning the heroin lab kit
-    TriggerServerEvent("md-drugs:server:removecleaningkitheroin", data.data)
+    TriggerServerEvent("wrp-drugs:server:removecleaningkitheroin", data.data)
 
     -- Reset the progress bar status after completion
     isCleaningHeroinLabKitActive = false
 end)
 
 
-RegisterNetEvent("md-drugs:client:deletedirtyheroin", function(data) 
+RegisterNetEvent("wrp-drugs:client:deletedirtyheroin", function(data) 
     DeleteObject(data)
     herointable = false
     Wait(1000)
-    TriggerEvent("md-drugs:client:setheroinlabkit")
+    TriggerEvent("wrp-drugs:client:setheroinlabkit")
 end)
 
 -- Register a client-side event for getting heroin kit back
-RegisterNetEvent("md-drugs:client:getheroinkitback", function(data)
+RegisterNetEvent("wrp-drugs:client:getheroinkitback", function(data)
     -- Check if the progress bar is already active
     if isGettingHeroinKitBackActive then 
         lib.notify({
@@ -589,14 +562,14 @@ RegisterNetEvent("md-drugs:client:getheroinkitback", function(data)
     DeleteObject(data.data)
 
     -- Trigger a server-side event to process getting heroin kit back
-    TriggerServerEvent("md-drugs:server:getheroinlabkitback")
+    TriggerServerEvent("wrp-drugs:server:getheroinlabkitback")
 
     -- Reset the progress bar status after completion
     isGettingHeroinKitBackActive = false
 end)
 
 -- Register a client-side event for filling needle
-RegisterNetEvent("md-drugs:client:fillneedle", function(data)
+RegisterNetEvent("wrp-drugs:client:fillneedle", function(data)
     -- Check if the progress bar is already active
     if isFillingNeedleActive then 
         lib.notify({
@@ -610,7 +583,7 @@ RegisterNetEvent("md-drugs:client:fillneedle", function(data)
 
     -- Perform the minigame check
     if not minigame(2, 8) then
-        TriggerServerEvent("md-drugs:server:failheroin", data.data)
+        TriggerServerEvent("wrp-drugs:server:failheroin", data.data)
         return 
     end
 
@@ -624,7 +597,7 @@ RegisterNetEvent("md-drugs:client:fillneedle", function(data)
     end
 
     -- Trigger a server-side event to process filling the needle
-    TriggerServerEvent("md-drugs:server:fillneedle", data.data)
+    TriggerServerEvent("wrp-drugs:server:fillneedle", data.data)
 
     -- Reset the progress bar status after completion
     isFillingNeedleActive = false

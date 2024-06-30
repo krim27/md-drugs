@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent('md-drugs:server:startcook', function()
+RegisterServerEvent('wrp-drugs:server:startcook', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
 	if not Itemcheck(Player, 'ephedrine', 1, 'true') and Itemcheck(Player, 'acetone', 1, 'true') then return end
@@ -9,7 +9,7 @@ RegisterServerEvent('md-drugs:server:startcook', function()
 	RemoveItem('acetone', 1)
 end)
 
-RegisterServerEvent('md-drugs:server:givemethingridients', function()
+RegisterServerEvent('wrp-drugs:server:givemethingridients', function()
   local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local chance = math.random(1,100)
@@ -26,10 +26,10 @@ RegisterServerEvent('md-drugs:server:givemethingridients', function()
 	end	
 end)
 
-RegisterServerEvent('md-drugs:server:getmeth', function()
+RegisterServerEvent('wrp-drugs:server:getmeth', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
-  local amount = math.random(1,5)
+  local amount = math.random(5,10)
  
   if RemoveItem("empty_meth_bag", amount) then
 		AddItem("methbags", amount)
@@ -39,7 +39,7 @@ RegisterServerEvent('md-drugs:server:getmeth', function()
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:geteph', function(num)
+RegisterServerEvent('wrp-drugs:server:geteph', function(num)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -49,7 +49,7 @@ RegisterServerEvent('md-drugs:server:geteph', function(num)
 		end
 end)
 	
-RegisterServerEvent('md-drugs:server:getace', function(num)
+RegisterServerEvent('wrp-drugs:server:getace', function(num)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)

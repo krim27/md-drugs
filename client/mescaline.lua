@@ -108,14 +108,14 @@ end)
 
 
 
-RegisterNetEvent("md-drugs:client:drymescaline", function()
+RegisterNetEvent("wrp-drugs:client:drymescaline", function()
     if not ItemCheck('cactusbulb')  then return end 
 	if not progressbar(Lang.mescaline.dry, 4000, 'uncuff') then return end
-	TriggerServerEvent("md-drugs:server:drymescaline")
+	TriggerServerEvent("wrp-drugs:server:drymescaline")
 end)
 
 
-RegisterNetEvent("md-drugs:client:takemescaline", function()
+RegisterNetEvent("wrp-drugs:client:takemescaline", function()
 local chance = math.random(1,100)
 local chance2 = math.random(1,100)
     if not progressbar(Lang.mescaline.eat, 4000, 'uncuff') then return end

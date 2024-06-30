@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 -------------------- stealing ingridients 
-RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
+RegisterServerEvent('wrp-drugs:server:stealisosafrole', function(num)
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -9,7 +9,7 @@ RegisterServerEvent('md-drugs:server:stealisosafrole', function(num)
   	end	
 end)
 
-RegisterServerEvent('md-drugs:server:stealmdp2p', function(num)
+RegisterServerEvent('wrp-drugs:server:stealmdp2p', function(num)
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -28,13 +28,13 @@ QBCore.Functions.CreateUseableItem(v.item, function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
-	if TriggerClientEvent("md-drugs:client:setpress", src, v.data) then
+	if TriggerClientEvent("wrp-drugs:client:setpress", src, v.data) then
 		Player.Functions.RemoveItem(v.item, 1)
 	end
 end)
 end
 
-RegisterServerEvent('md-drugs:server:getpressback', function(type)
+RegisterServerEvent('wrp-drugs:server:getpressback', function(type)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
@@ -54,7 +54,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 end)
 
 
-RegisterServerEvent('md-drugs:server:makextc', function(data)
+RegisterServerEvent('wrp-drugs:server:makextc', function(data)
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if not Itemcheck(Player, 'raw_xtc', 1, 'true') then return end
@@ -157,7 +157,7 @@ RegisterServerEvent('md-drugs:server:makextc', function(data)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:buypress', function()
+RegisterServerEvent('wrp-drugs:server:buypress', function()
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	
@@ -168,7 +168,7 @@ RegisterServerEvent('md-drugs:server:buypress', function()
 	  end
   end)
 
-RegisterServerEvent('md-drugs:server:upgradepress', function(data)
+RegisterServerEvent('wrp-drugs:server:upgradepress', function(data)
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   local playerPed = GetPlayerPed(source)
@@ -223,7 +223,7 @@ RegisterServerEvent('md-drugs:server:upgradepress', function(data)
 end)
 
 ------------- making powder
-RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
+RegisterServerEvent('wrp-drugs:server:makingrawxtc', function(num)
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   local playerPed = GetPlayerPed(source)
@@ -234,7 +234,7 @@ RegisterServerEvent('md-drugs:server:makingrawxtc', function(num)
     AddItem("raw_xtc", 1)	
 end)
   
-RegisterServerEvent('md-drugs:server:stampwhite', function(num)
+RegisterServerEvent('wrp-drugs:server:stampwhite', function(num)
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   local one = {'white_playboys', 'white_aliens', 'white_pl', 'white_trolls', 'white_cats'}
@@ -263,7 +263,7 @@ RegisterServerEvent('md-drugs:server:stampwhite', function(num)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:stampred', function(num)
+RegisterServerEvent('wrp-drugs:server:stampred', function(num)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	local one = {'red_playboys', 'red_aliens', 'red_pl', 'red_trolls', 'red_cats'}
@@ -292,7 +292,7 @@ RegisterServerEvent('md-drugs:server:stampred', function(num)
 	  end
 end)
 
-RegisterServerEvent('md-drugs:server:stamporange', function(num)
+RegisterServerEvent('wrp-drugs:server:stamporange', function(num)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	local one = {'orange_playboys', 'orange_aliens', 'orange_pl', 'orange_trolls', 'orange_cats'}
@@ -321,7 +321,7 @@ RegisterServerEvent('md-drugs:server:stamporange', function(num)
 	  end
 end)
 
-RegisterServerEvent('md-drugs:server:stampblue', function(num)
+RegisterServerEvent('wrp-drugs:server:stampblue', function(num)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	local one = {'blue_playboys', 'blue_aliens', 'blue_pl', 'blue_trolls', 'blue_cats'}

@@ -6,12 +6,12 @@ exports('GetDealers', function()
 end)
 
 -- Callbacks
-QBCore.Functions.CreateCallback('md-drugs:server:RequestConfig', function(_, cb)
+QBCore.Functions.CreateCallback('wrp-drugs:server:RequestConfig', function(_, cb)
     cb(QBConfig.Dealers)
 end)
 
 -- Events
-RegisterNetEvent('md-drugs:server:updateDealerItems', function(itemData, amount, dealer)
+RegisterNetEvent('wrp-drugs:server:updateDealerItems', function(itemData, amount, dealer)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
@@ -19,7 +19,7 @@ RegisterNetEvent('md-drugs:server:updateDealerItems', function(itemData, amount,
 
     if QBConfig.Dealers[dealer]["products"][itemData.slot].amount - 1 >= 0 then
         QBConfig.Dealers[dealer]["products"][itemData.slot].amount = QBConfig.Dealers[dealer]["products"][itemData.slot].amount - amount
-        TriggerClientEvent('md-drugs:client:setDealerItems', -1, itemData, amount, dealer)
+        TriggerClientEvent('wrp-drugs:client:setDealerItems', -1, itemData, amount, dealer)
     else
         Player.Functions.RemoveItem(itemData.name, amount)
         Player.Functions.AddMoney('cash', amount * QBConfig.Dealers[dealer]["products"][itemData.slot].price)
@@ -27,7 +27,7 @@ RegisterNetEvent('md-drugs:server:updateDealerItems', function(itemData, amount,
     end
 end)
 
-RegisterNetEvent('md-drugs:server:giveDeliveryItems', function(deliveryData)
+RegisterNetEvent('wrp-drugs:server:giveDeliveryItems', function(deliveryData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local item = QBConfig.DeliveryItems[deliveryData.item].item
@@ -37,7 +37,7 @@ RegisterNetEvent('md-drugs:server:giveDeliveryItems', function(deliveryData)
 	end
 end)
 
-RegisterNetEvent('md-drugs:server:successDelivery', function(deliveryData, inTime)
+RegisterNetEvent('wrp-drugs:server:successDelivery', function(deliveryData, inTime)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local item = QBConfig.DeliveryItems[deliveryData.item].item
@@ -70,7 +70,7 @@ RegisterNetEvent('md-drugs:server:successDelivery', function(deliveryData, inTim
             TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], "remove")
             TriggerClientEvent('QBCore:Notify', src, "You Got There In Time!", 'success')
             SetTimeout(math.random(5000, 10000), function()
-                TriggerClientEvent('md-drugs:client:sendDeliveryMail', src, 'perfect', deliveryData)
+                TriggerClientEvent('wrp-drugs:client:sendDeliveryMail', src, 'perfect', deliveryData)
                 Player.Functions.SetMetaData('dealerrep', (curRep + QBConfig.DeliveryRepGain))
             end)
         else
@@ -83,7 +83,7 @@ RegisterNetEvent('md-drugs:server:successDelivery', function(deliveryData, inTim
                 Player.Functions.AddMoney('cash', math.floor(modifiedPayout / QBConfig.WrongAmountFee))
             end
             SetTimeout(math.random(5000, 10000), function()
-                TriggerClientEvent('md-drugs:client:sendDeliveryMail', src, 'bad', deliveryData)
+                TriggerClientEvent('wrp-drugs:client:sendDeliveryMail', src, 'bad', deliveryData)
                 if curRep - 1 > 0 then
                     Player.Functions.SetMetaData('dealerrep', (curRep - QBConfig.DeliveryRepLoss))
                 else
@@ -98,7 +98,7 @@ RegisterNetEvent('md-drugs:server:successDelivery', function(deliveryData, inTim
             Player.Functions.AddMoney('cash', math.floor(payout / QBConfig.OverdueDeliveryFee), "delivery-drugs-too-late")
             TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], "remove")
             SetTimeout(math.random(5000, 10000), function()
-                TriggerClientEvent('md-drugs:client:sendDeliveryMail', src, 'late', deliveryData)
+                TriggerClientEvent('wrp-drugs:client:sendDeliveryMail', src, 'late', deliveryData)
                 if curRep - 1 > 0 then
                     Player.Functions.SetMetaData('dealerrep', (curRep - QBConfig.DeliveryRepLoss))
                 else
@@ -114,7 +114,7 @@ RegisterNetEvent('md-drugs:server:successDelivery', function(deliveryData, inTim
                 Player.Functions.AddMoney('cash', math.floor(modifiedPayout / QBConfig.OverdueDeliveryFee), "delivery-drugs-too-late")
                 TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], "remove")
                 SetTimeout(math.random(5000, 10000), function()
-                    TriggerClientEvent('md-drugs:client:sendDeliveryMail', src, 'late', deliveryData)
+                    TriggerClientEvent('wrp-drugs:client:sendDeliveryMail', src, 'late', deliveryData)
                     if curRep - 1 > 0 then
                         Player.Functions.SetMetaData('dealerrep', (curRep - QBConfig.DeliveryRepLoss))
                     else
@@ -153,7 +153,7 @@ QBCore.Commands.Add("newdealer", "Place a dealer (Admin Only)", {{ name = "name"
             },
             ["products"] = QBConfig.Products
         }
-        TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
+        TriggerClientEvent('wrp-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
     end)
 end, "admin")
 
@@ -166,7 +166,7 @@ QBCore.Commands.Add("deletedealer", "Delete a dealer (Admin Only)", {{
     if result then
         MySQL.query('DELETE FROM dealers WHERE name = ?', {dealerName})
         QBConfig.Dealers[dealerName] = nil
-        TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
+        TriggerClientEvent('wrp-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
         TriggerClientEvent('QBCore:Notify', source, "Dealer Deleted" , "success")
     else
         TriggerClientEvent('QBCore:Notify', source, "Who You Tryna Delete", "error")
@@ -225,10 +225,10 @@ CreateThread(function()
             }
         end
     end
-    TriggerClientEvent('md-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
+    TriggerClientEvent('wrp-drugs:client:RefreshDealers', -1, QBConfig.Dealers)
 	
 end)
-RegisterServerEvent("md-drugs:server:Dealershop", function(amount, value, item,  info)
+RegisterServerEvent("wrp-drugs:server:Dealershop", function(amount, value, item,  info)
 	local src = source local Player = QBCore.Functions.GetPlayer(src)
 	local balance = Player.Functions.GetMoney(tostring(value)) 
 	if Player.Functions.RemoveMoney(tostring(value), tonumber(info) * tonumber(amount)) then

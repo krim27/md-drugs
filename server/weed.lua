@@ -37,27 +37,27 @@ AddEventHandler("weed:pickupCane", function(loc)
 end)
 
 --------------- events
-RegisterServerEvent('md-drugs:server:putoutweed', function()
+RegisterServerEvent('wrp-drugs:server:putoutweed', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	if RemoveItem("wetcannabis", 1) then
-		exports.evolent_skills:addXp(src, 'weed', math.random(1,5))
+		exports.evolent_skills:addXp(src, 'weed', math.random(0.5,2.5))
     else
 		Notifys(Lang.Weed.nodry, "error")
 	end
 end)
-RegisterServerEvent('md-drugs:server:dryoutweed', function()
+RegisterServerEvent('wrp-drugs:server:dryoutweed', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	if AddItem("drycannabis", 1) then
-		exports.evolent_skills:addXp(src, 'weed', math.random(1,5))
+		exports.evolent_skills:addXp(src, 'weed', math.random(0.5,2.5))
     else
 		Notifys(Lang.Weed.nodry, "error")
 	end
 end)
 
 
-RegisterServerEvent('md-drugs:server:makebutter', function()
+RegisterServerEvent('wrp-drugs:server:makebutter', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   local recipe = {'mdbutter', 'grindedweed'}
@@ -74,7 +74,7 @@ RegisterServerEvent('md-drugs:server:makebutter', function()
 end)
 
 
-RegisterServerEvent('md-drugs:server:makebrownies', function()
+RegisterServerEvent('wrp-drugs:server:makebrownies', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
 	  local recipe = {'cannabutter', 'flour', 'chocolate' }
@@ -87,11 +87,11 @@ RegisterServerEvent('md-drugs:server:makebrownies', function()
 		RemoveItem('flour', 1)
 		RemoveItem('chocolate', 1)
 		AddItem('specialbrownie', 1 )
-		exports.evolent_skills:addXp(src, 'weed', math.random(5,10))
+		exports.evolent_skills:addXp(src, 'weed', math.random(7,15))
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:makecookies', function()
+RegisterServerEvent('wrp-drugs:server:makecookies', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
 	local recipe = {'cannabutter', 'flour' }
@@ -103,11 +103,11 @@ RegisterServerEvent('md-drugs:server:makecookies', function()
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		AddItem('specialcookie', 1 ) 
-		exports.evolent_skills:addXp(src, 'weed', math.random(5,10))
+		exports.evolent_skills:addXp(src, 'weed', math.random(10,12))
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:makechocolate', function()
+RegisterServerEvent('wrp-drugs:server:makechocolate', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
 	  local recipe = {'cannabutter', 'chocolate' }
@@ -119,11 +119,11 @@ RegisterServerEvent('md-drugs:server:makechocolate', function()
 		RemoveItem('cannabutter', 1)
 		RemoveItem('chocolate', 1)
 		AddItem('specialchocolate', 1 ) 
-		exports.evolent_skills:addXp(src, 'weed', math.random(5,10))
+		exports.evolent_skills:addXp(src, 'weed', math.random(1,5))
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:makemuffin', function()
+RegisterServerEvent('wrp-drugs:server:makemuffin', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
 	  local recipe = {'cannabutter', 'flour' }
@@ -135,11 +135,11 @@ RegisterServerEvent('md-drugs:server:makemuffin', function()
 		RemoveItem('cannabutter', 1)
 		RemoveItem('flour', 1)
 		AddItem('specialmuffin', 1 )
-		exports.evolent_skills:addXp(src, 'weed', math.random(5,10))
+		exports.evolent_skills:addXp(src, 'weed', math.random(10,20))
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:makeoil', function()
+RegisterServerEvent('wrp-drugs:server:makeoil', function()
   	local src = source
 	  local Player = QBCore.Functions.GetPlayer(src)
   	local recipe = {'grindedweed', 'butane' }
@@ -151,13 +151,13 @@ RegisterServerEvent('md-drugs:server:makeoil', function()
 		RemoveItem('butane', 1)
 		RemoveItem('grindedweed', 1)
 		AddItem('shatter', 1 )
-		exports.evolent_skills:addXp(src, 'weed', math.random(5,10))
+		exports.evolent_skills:addXp(src, 'weed', math.random(20,22))
 	end	
 end)
 
 
 
-RegisterServerEvent('md-drugs:server:rollblunt', function()
+RegisterServerEvent('wrp-drugs:server:rollblunt', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
 	  local recipe = {'bluntwrap', 'grindedweed' }
@@ -166,7 +166,7 @@ RegisterServerEvent('md-drugs:server:rollblunt', function()
 		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
 	  end
  	if have == 2 then
-	  TriggerClientEvent("md-drugs:client:rollanim", src)
+	  TriggerClientEvent("wrp-drugs:client:rollanim", src)
  	 	RemoveItem('bluntwrap', 1)
   		RemoveItem('grindedweed', 1)
 		AddItem('blunt', 1 )
@@ -174,7 +174,7 @@ RegisterServerEvent('md-drugs:server:rollblunt', function()
 	end	
 end)
 
-RegisterServerEvent('md-drugs:server:rollleanblunt', function()
+RegisterServerEvent('wrp-drugs:server:rollleanblunt', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
   	local chance = math.random(1,10)
@@ -184,7 +184,7 @@ RegisterServerEvent('md-drugs:server:rollleanblunt', function()
 		if Itemcheck(Player, v, 1, 'true') then have = have + 1 end
 	  end
  	if have == 2 then
-	  TriggerClientEvent("md-drugs:client:rollanim", src)
+	  TriggerClientEvent("wrp-drugs:client:rollanim", src)
 		RemoveItem("bluntwrap", 1)
 		AddItem("leanbluntwrap", 1)
 		exports.evolent_skills:addXp(src, 'weed', math.random(1,3))
@@ -194,7 +194,7 @@ RegisterServerEvent('md-drugs:server:rollleanblunt', function()
 end
 end)
 
-RegisterServerEvent('md-drugs:server:rolldextroblunt', function()
+RegisterServerEvent('wrp-drugs:server:rolldextroblunt', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   local chance = math.random(1,10)
@@ -208,14 +208,14 @@ RegisterServerEvent('md-drugs:server:rolldextroblunt', function()
 	RemoveItem("bluntwrap", 1)
 	AddItem("dextrobluntwrap", 1)
 	exports.evolent_skills:addXp(src, 'weed', math.random(1,3))
-	TriggerClientEvent("md-drugs:client:rollanim", src)
+	TriggerClientEvent("wrp-drugs:client:rollanim", src)
 	if chance > 8 then
 		Player.Functions.RemoveItem("mdreddextro", 1)
 	end	
 end
 end)
 
-RegisterServerEvent('md-drugs:server:rollchewyblunt', function()
+RegisterServerEvent('wrp-drugs:server:rollchewyblunt', function()
   	local src = source
   	local Player = QBCore.Functions.GetPlayer(src)
 	  local recipe = {'bluntwrap', 'loosecoke', 'grindedweed' }
@@ -229,10 +229,43 @@ RegisterServerEvent('md-drugs:server:rollchewyblunt', function()
 		RemoveItem("grindedweed", 1)
 		AddItem("chewyblunt", 1)
 		exports.evolent_skills:addXp(src, 'weed', math.random(1,3))
-		TriggerClientEvent("md-drugs:client:rollanim", src)
+		TriggerClientEvent("wrp-drugs:client:rollanim", src)
+	end
+end)
+
+RegisterServerEvent('wrp-drugs:server:getWeedTableBack', function()
+	local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+		
+	if AddItem("weedlabkit", 1) then
+		Notifys('You Got Your Lab Kit Back', 'success')
+	end
+end)
+
+RegisterServerEvent('wrp-drugs:server:bagweed', function(num)
+	local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+	local playerPed = GetPlayerPed(source)
+	if not Itemcheck(Player, 'empty_weed_bag', 1, 'true') then return end
+	if RemoveItem('drycannabis', 1 ) then
+		RemoveItem('empty_weed_bag', 1) 
+		AddItem('weed_package', 1) 
+		Notifys(Lang.Weed.makeweed, "success")
+	else
+		Notifys(Lang.Weed.noweed2, "error")
 	end
 end)
 ------------------------ usuable items
+
+QBCore.Functions.CreateUseableItem('weedlabkit', function(source, item)
+	local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+	
+		if TriggerClientEvent("wrp-drugs:client:setWeedTable", src) then
+			Player.Functions.RemoveItem("weedlabkit", 1)
+		end
+end)
+
 QBCore.Functions.CreateUseableItem("leanbluntwrap", function(source, item)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
@@ -240,7 +273,7 @@ QBCore.Functions.CreateUseableItem("leanbluntwrap", function(source, item)
 	
 	if keef and keef.amount > 0 then 
 		if Player.Functions.RemoveItem('grindedweed', 1) then
-			TriggerClientEvent("md-drugs:client:rollanim", src)
+			TriggerClientEvent("wrp-drugs:client:rollanim", src)
 			Player.Functions.RemoveItem("leanbluntwrap", 1) 
 			Player.Functions.AddItem('leanblunts', 1)
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['leanblunts'], "add", 1)
@@ -258,7 +291,7 @@ QBCore.Functions.CreateUseableItem("dextrobluntwrap", function(source, item)
 	
 	if keef and keef.amount > 0 then 
 		if Player.Functions.RemoveItem('grindedweed', 1) then
-			TriggerClientEvent("md-drugs:client:rollanim", src)
+			TriggerClientEvent("wrp-drugs:client:rollanim", src)
 			Player.Functions.RemoveItem("dextrobluntwrap", 1) 
 			Player.Functions.AddItem('dextroblunts', 1)
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['dextroblunts'], "add", 1)
@@ -277,7 +310,7 @@ QBCore.Functions.CreateUseableItem("dabrig", function(source, item)
 	if Player.Functions.GetItemByName("butanetorch") then 
 		if Player.Functions.RemoveItem("shatter", 1) then
 	    	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["shatter"], "remove", 1)
-	    	TriggerClientEvent("md-drugs:client:dodabs", src)
+	    	TriggerClientEvent("wrp-drugs:client:dodabs", src)
 		else
 	        Notifys(Lang.Weed.noshat, "error")
 	    end
@@ -288,7 +321,7 @@ end)
 QBCore.Functions.CreateUseableItem("bluntwrap", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
-TriggerClientEvent('md-drugs:client:bluntwraps', src)
+TriggerClientEvent('wrp-drugs:client:bluntwraps', src)
 end)
 
 QBCore.Functions.CreateUseableItem("weedgrinder", function(source, item)
@@ -297,14 +330,14 @@ local Player = QBCore.Functions.GetPlayer(src)
 if Player.Functions.RemoveItem("drycannabis",1 ) then 
 	Player.Functions.AddItem("grindedweed", 1)
 	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["grindedweed"], "add", 1)
-	TriggerClientEvent("md-drugs:client:grind", src)
+	TriggerClientEvent("wrp-drugs:client:grind", src)
 end
 end)
 
 QBCore.Functions.CreateUseableItem("mdwoods", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
-TriggerClientEvent("md-drugs:client:rollanim", src)
+TriggerClientEvent("wrp-drugs:client:rollanim", src)
 Wait(4000)
 if Player.Functions.RemoveItem("mdwoods",1 ) then 
 	Player.Functions.AddItem("bluntwrap", 5)

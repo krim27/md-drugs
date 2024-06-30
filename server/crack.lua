@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 
-RegisterServerEvent('md-drugs:server:makecrackone', function(num)
+RegisterServerEvent('wrp-drugs:server:makecrackone', function(num)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -40,7 +40,7 @@ RegisterServerEvent('md-drugs:server:makecrackone', function(num)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:bagcrack', function(num)
+RegisterServerEvent('wrp-drugs:server:bagcrack', function(num)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)

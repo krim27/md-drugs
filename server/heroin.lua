@@ -19,13 +19,13 @@ function heroinCooldown(loc)
     end)
 end
 
-RegisterServerEvent('md-drugs:server:removecleaningkitheroin', function(data)
+RegisterServerEvent('wrp-drugs:server:removecleaningkitheroin', function(data)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
 	if RemoveItem("cleaningkit", 1) then
 		Notifys("Cleaned It Perfectly", "success")
-		TriggerClientEvent("md-drugs:client:deletedirtyheroin", src, data)
+		TriggerClientEvent("wrp-drugs:client:deletedirtyheroin", src, data)
 	else
 		Notifys("You cant clean it with spit alone", "error")
 	end
@@ -46,7 +46,7 @@ RegisterServerEvent("heroin:pickupCane", function(loc)
     end
 end)
 
-RegisterServerEvent('md-drugs:server:dryplant', function(num)
+RegisterServerEvent('wrp-drugs:server:dryplant', function(num)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -75,7 +75,7 @@ RegisterServerEvent('md-drugs:server:dryplant', function(num)
 end)
 
 
-RegisterServerEvent('md-drugs:server:cutheroin', function(num)
+RegisterServerEvent('wrp-drugs:server:cutheroin', function(num)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -114,7 +114,7 @@ RegisterServerEvent('md-drugs:server:cutheroin', function(num)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
+RegisterServerEvent('wrp-drugs:server:getheroinlabkit', function()
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -127,7 +127,7 @@ RegisterServerEvent('md-drugs:server:getheroinlabkit', function()
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:getheroinlabkitback', function()
+RegisterServerEvent('wrp-drugs:server:getheroinlabkitback', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
@@ -140,14 +140,14 @@ QBCore.Functions.CreateUseableItem('heroinlabkit', function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 	if not Itemcheck(Player, 'heroinlabkit', 1, 'true') then return end
-	if TriggerClientEvent("md-drugs:client:setheroinlabkit", src) then
+	if TriggerClientEvent("wrp-drugs:client:setheroinlabkit", src) then
 		Player.Functions.RemoveItem("heroinlabkit", 1)
 	end
 end)
 
 
 
-RegisterServerEvent('md-drugs:server:heatliquidheroin', function()
+RegisterServerEvent('wrp-drugs:server:heatliquidheroin', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 	if not Itemcheck(Player, 'emptyvial', 1, 'true') then return end
@@ -184,7 +184,7 @@ local Player = QBCore.Functions.GetPlayer(src)
 	end
 end)
 
-RegisterServerEvent('md-drugs:server:failheatingheroin', function()
+RegisterServerEvent('wrp-drugs:server:failheatingheroin', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local cuth = Player.Functions.GetItemByName('heroincut')
@@ -204,7 +204,7 @@ local cuth3 = Player.Functions.GetItemByName('heroincutstagethree')
 end)
 
 
-RegisterServerEvent('md-drugs:server:fillneedle', function(num)
+RegisterServerEvent('wrp-drugs:server:fillneedle', function(num)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	local playerPed = GetPlayerPed(source)
@@ -249,7 +249,7 @@ end)
 
 
 
-RegisterServerEvent('md-drugs:server:failheroin', function()
+RegisterServerEvent('wrp-drugs:server:failheroin', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 	if Config.TierSystem then

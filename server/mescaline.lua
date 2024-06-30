@@ -37,8 +37,8 @@ end)
 
 
 
-RegisterNetEvent("md-drugs:server:drymescaline")
-AddEventHandler("md-drugs:server:drymescaline", function()
+RegisterNetEvent("wrp-drugs:server:drymescaline")
+AddEventHandler("wrp-drugs:server:drymescaline", function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
@@ -54,6 +54,6 @@ QBCore.Functions.CreateUseableItem("driedmescaline", function(source, item)
     local Player = QBCore.Functions.GetPlayer(src)
 
     if Player.Functions.RemoveItem("driedmescaline", 1) then 
-	    TriggerClientEvent("md-drugs:client:takemescaline", src)
+	    TriggerClientEvent("wrp-drugs:client:takemescaline", src)
     end
 end)

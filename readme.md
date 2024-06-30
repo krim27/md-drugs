@@ -1,4 +1,4 @@
-<h1>md-drugs</h1>
+<h1>wrp-drugs</h1>
 
 <div align="center">
   <a href="https://discord.gg/sAMzrB4DDx">
@@ -56,7 +56,7 @@
 
 ```lua
 
-    ------------------ md-drugs
+    ------------------ wrp-drugs
 	coke 		 	 	 	     = {name = "coke",           					label = "Raw Cocaine", 				    weight = 1000,		type = "item", 		image = "coke.png", 				    unique = false, 	useable = false, 	shouldClose = false,   combinable = nil,   description = "Raw Cocaine"},
     coca_leaf 		 	 	 	 = {name = "coca_leaf",           				label = "Cocaine leaves",	 		    weight = 1500,		type = "item", 		image = "coca_leaf.png", 			    unique = false, 	useable = false, 	shouldClose = false,   combinable = nil,   description = "Cocaine leaves that must be processed !"},
     poppyresin 		 	 	     = {name = "poppyresin",           				label = "Poppy resin",	 			    weight = 2000, 		type = "item", 		image = "poppyresin.png", 			    unique = false, 	useable = false, 	shouldClose = false,   combinable = nil,   description = "It sticks to your fingers when you handle it."},
@@ -304,7 +304,7 @@
 ![](https://cdn.discordapp.com/attachments/1164709522691076120/1185724912648867940/image.png?ex=6590a760&is=657e3260&hm=51534201d8d3e71f79a5c1678879ed8423f381a4a31c62f1bce6caf73782abe0&)
 
 ```lua
-     event = 'md-drugs:client:cornerselling',
+     event = 'wrp-drugs:client:cornerselling',
 ```
 
 ![](https://cdn.discordapp.com/attachments/1164709522691076120/1185725132975644753/image.png?ex=6590a795&is=657e3295&hm=97d7f60ec6c4508af92f758c00669b1d52fe673c6481434b586f81cf29c1f292&)
@@ -421,7 +421,7 @@ then in prop emotes do
 
 ```lua
 	QBCore.Functions.CreateCallback('test:getdealers', function(_, cb)
-		cb(exports['md-drugs']:GetDealers())
+		cb(exports['wrp-drugs']:GetDealers())
 	end)
 ```	
 - 

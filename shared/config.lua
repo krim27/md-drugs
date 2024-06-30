@@ -4,7 +4,7 @@ Config.oxtarget = true --- turn to true if you use oxtarget
 Config.respawnTime = 150 -- Seconds
 Config.Fuel = "Renewed-Fuel" -- type the name of script you use i.e. ps-fuel, cdn-fuel, LegacyFuel
 Config.TierSystem = true -- allows for three tiers of certain drugs ( coke, heroin, crack, lsd)
-Config.StupidassNewQbItemName = false -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
+Config.StupidassNewQbItemName = true -- true if you have updated your items.lua from base qb after november 2023 because changing item names this far in a framework is 3 IQ points total
 Config.RequestModelTime = 30000 -- if you need more time than this, uhhhh wow
 
 ----------------------------------- TierSystem levels ** ONLY IN USE IF CONFIG.TIERSYTEM IS TRUE
@@ -37,29 +37,31 @@ Config.BaggingCoke = { -- only active if Config.FancyCokeAnims = false
 }
 ---------------- Crack locations
 Config.makecrack = { -- make crack with baking soda with cut coke 1-3
-    {loc = vector3(2434.07, 4969.39, 42.35), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(5212.4892578125, -5125.904296875, 6.0086817741394), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 
 Config.bagcrack = { ---  bag crack 1-3 stages
-    {loc = vector3(2435.85, 4965.3, 42.35), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(5212.9262695312, -5130.9248046875, 6.0081081390381), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 ------------------------- LSD Locations
 Config.lysergicacid = { -- get lysergic acid
-    {loc = vector3(-1381.21, -327.75, 39.85), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-    {loc = vector3(2405.53, 5008.39, 46.02), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(4926.4580078125, -5244.6723632812, 1.5189210176468), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(4924.4521484375, -5246.0708007812, 1.5189210176468), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+
 }
 
 Config.diethylamide = { -- get diethylamide
-    {loc = vector3(-1371.71, -316.02, 39.53), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-    {loc = vector3(2408.38, 5011.18, 46.08), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(4962.7270507812, -5106.5791015625, 2.9696220159531), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(4964.0698242188, -5109.3100585938, 2.9696220159531), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(4959.6337890625, -5107.0400390625, 2.9696220159531), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+
 }
 
 Config.gettabs = { -- buy tab paper
-    {loc = vector3(-1370.77, -314.51, 39.58), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
-    {loc = vector3(2409.59, 5012.45, 46.09), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(5215.890625, -5129.7817382812, 6.3030982017517), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 
-Config.buylsdlabkit = vector4(2488.5676269531, 4964.6533203125, 44.719985961914, 220.44274902344)--  buy lab kit
+Config.buylsdlabkit = vector4(4956.3984375, -5321.4736328125, 8.4885377883911, 81.771034240723)--  buy lab kit
 Config.tabcost = 100 -- price per piece of tab paper event does 10 at a time
 Config.lsdlabkitcost = 10000 -- price of the lsd lab kit
 ------------------------- Heroin Locations
@@ -76,7 +78,7 @@ Config.fillneedle = { -- fill needles with heroin
     {loc = vector3(5136.3349609375, -4613.8120117188, 2.4586030244827), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 
-Config.buyheroinlabkit = vector4(3304.3352050781, 5184.7763671875, 19.71141242981, 68.878273010254) -- buy heroin lab kit
+Config.buyheroinlabkit = vector4(4957.4155273438, -5315.4130859375, 8.497857093811, 79.387092590332) -- buy heroin lab kit
 Config.heroinlabkitprice = 10000 -- price of the lsd lab kit
 
 ------------ XTC
@@ -124,7 +126,7 @@ Config.PharmaJob = "ems" -- what TYPE role you need to be on to get the command
 
 -------------- weed
 Config.Teleout = vector3(1066.31, -3183.36, -39.16) -- where you target to tele in
-Config.Telein = vector3(244.74, 374.54, 105.74) -- where you target to tele out
+Config.Telein = vector3(4954.498046875, -5107.5981445312, 3.8888311386108) -- where you target to tele out
 Config.MakeButter = vector3(1045.48, -3198.49, -38.22) -- where you make cannabutter and baked edibles
 Config.MakeOil = vector3(1038.90, -3198.66, -38.17) -- where you make shatter
 Config.WeedSaleman = vector4(1030.46, -3203.63, -38.2, 180.0)
@@ -171,39 +173,70 @@ Config.WXTC = { min = 20, max = 60}
 --- travelling merchant
 
 Config.Travellingmerchant = { ------------ these are the random locations the merchant can spawn on script start. whatever you want for the merchant is in Config.Items right below
-    vector4(-119.66, -977.43, 304.25, 88.21),
-	vector4(-1522.93, 1476.01, 111.45, 41.25),
-	vector4(-3278.98, 973.38, 5.35, 101.53),
+    vector4(5265.4526367188, -5418.78125, 65.59708404541, 230.43617248535),
+    vector4(5273.5122070312, -5425.69140625, 65.59708404541, 56.710403442383),
+    vector4(5270.4580078125, -5428.1840820312, 65.597114562988, 88.37092590332),
+    vector4(5267.7075195312, -5429.310546875, 65.59708404541, 25.729537963867),
 }
-Config.Items = { --- this is the store for the travelling merchant
-    items = {
-        [1] = {name = "tab_paper", 		 price = 50, 	amount = 50, 	},
-        [2] = {name = "bakingsoda", 	 price = 25, 	amount = 50, 	},
-		[3] = {name = "isosafrole", 	 price = 25, 	amount = 50, 	},
-		[4] = {name = "mdp2p", 			 price = 25, 	amount = 50, 	},
-		[5] = {name = "lysergic_acid",   price = 25, 	amount = 50, 	},
-		[6] = {name = "diethylamide",    price = 25, 	amount = 50, 	},
-		[7] = {name = "empty_weed_bag",  price = 2, 	amount = 1000, 	},
-		[8] = {name = "emptyvial", 		 price = 2, 	amount = 1000, 	},
-		[9] = {name = "needle", 		 price = 2, 	amount = 1000,	},
-		[10] = {name = "cokeburner", 	 price = 25, 	amount = 50, 	},
-		[11] = {name = "crackburner", 	 price = 2, 	amount = 50, 	},
-		[12] = {name = "lsdburner",		 price = 2, 	amount = 50, 	},
-		[13] = {name = "heroinburner", 	 price = 2, 	amount = 50, 	},
-		[14] = {name = "mdlean", 		 price = 50, 	amount = 50, 	},
-        [15] = {name = "weedgrinder", 	 price = 25, 	amount = 50, 	},
-		[16] = {name = "mdbutter", 		 price = 25, 	amount = 50, 	},
-		[17] = {name = "flour", 		 price = 25, 	amount = 50, 	},
-		[18] = {name = "chocolate",  	 price = 25, 	amount = 50, 	},
-		[19] = {name = "butane", 		 price = 25, 	amount = 50, 	},
-		[20] = {name = "butanetorch", 	 price = 2, 	amount = 1000, 	},
-		[21] = {name = "dabrig", 		 price = 2, 	amount = 1000, 	},
-		[22] = {name = "mdwoods", 		 price = 2, 	amount = 1000, 	},
-		[23] = {name = "leancup", 		 price = 25, 	amount = 50, 	},
-        [24] = {name = "xtcburner", 	 price = 25, 	amount = 50, 	},
-		
-	}
+Config.Items = {
+    categories = {
+        ["Supplies"] = {
+            icon = "fas fa-tools", -- Example icon for Supplies category
+            items = {
+                {name = "tab_paper", price = 50, amount = 50},
+                {name = "bakingsoda", price = 25, amount = 50},
+                {name = "isosafrole", price = 25, amount = 50},
+                {name = "mdp2p", price = 25, amount = 50},
+            }
+        },
+        ["Chemicals"] = {
+            icon = "fas fa-tools", -- Example icon for Supplies category
+            items = {
+                {name = "lysergic_acid", price = 25, amount = 50},
+                {name = "diethylamide", price = 25, amount = 50},
+                {name = "empty_weed_bag", price = 2, amount = 1000},
+                {name = "empty_crack_bag", price = 2, amount = 1000},
+                {name = "empty_meth_bag", price = 2, amount = 1000},
+                {name = "emptyvial", price = 2, amount = 1000},
+            }
+        },
+        ["Tools"] = {
+            icon = "fas fa-tools", -- Example icon for Supplies category
+            items = {
+                {name = "needle", price = 2, amount = 1000},
+                {name = "cokeburner", price = 25, amount = 50},
+                {name = "crackburner", price = 2, amount = 50},
+                {name = "lsdburner", price = 2, amount = 50},
+            }
+        },
+        ["Miscellaneous"] = {
+            icon = "fas fa-tools", -- Example icon for Supplies category
+            items = {
+                {name = "heroinburner", price = 2, amount = 50},
+                {name = "mdlean", price = 50, amount = 50},
+                {name = "weedgrinder", price = 25, amount = 50},
+                {name = "mdbutter", price = 25, amount = 50},
+                {name = "flour", price = 25, amount = 50},
+                {name = "chocolate", price = 25, amount = 50},
+                {name = "butane", price = 25, amount = 50},
+                {name = "butanetorch", price = 2, amount = 1000},
+                {name = "dabrig", price = 2, amount = 1000},
+                {name = "mdwoods", price = 2, amount = 1000},
+                {name = "leancup", price = 25, amount = 50},
+                {name = "xtcburner", price = 25, amount = 50},
+            }
+        },
+        ["Tables"] = {
+            icon = "fas fa-table", -- Example icon for Supplies category
+            items = {
+                {name = "lsdlabkit", price = 2, amount = 15000},
+                {name = "heroinlabkit", price = 50, amount = 10000},
+                {name = "weedlabkit", price = 25, amount = 1000},
+            }
+        }
+    }
 }
+
 --------------------------------------- oxy runs
 ---- How oxyruns work. You pay for a truck, you get in it and it gives a route. There is a 20% chance that the car will be "hot" and you have to ditch it. No Routes will spawn if that pops up
 ----- when you get to the drop off point third eye the truck. You will carry a box to the ped. He will give you cash, some oxy and maybe a random item. Rinse and repeat
@@ -234,22 +267,22 @@ Config.oxylocations = { -- These are different locations where a ped spawns.
 }
 
 Config.OxyRandItems = { -- random items you get for completing the mission
-"oxy",
-"lockpick",
-"cryptostick",
+    "oxy",
+    "lockpick",
+    "cryptostick",
 }
 
 
 ---------------------- Meth Config
-Config.MethTeleIn = vector3(-2222.04, 303.99, 174.6) -- where you target to tele in
+Config.MethTeleIn = vector3(5095.2705078125, -4607.2075195312, 3.2549197673798) -- where you target to tele in
 Config.MethTeleOut = vector3(996.91, -3200.83, -36.39) -- where you target to tele out
 Config.MethHeist = false
 Config.MethHeistStart = vector3(-1102.93, -3066.76, 14.00) -- where you get the mission to get ingridients if meth heist = true
 Config.MethEph = {
-    {loc = vector3(3559.86, 3673.9, 28.13), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(5000.4458007812, -5163.1728515625, 2.7560039758682), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 Config.Methace = {
-    {loc = vector3(3535.41, 3661.05, 28.12), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
+    {loc = vector3(5196.8701171875, -5133.8969726562, 3.3416209220886), l = 1.0, w = 1.0, rot = 45.0, gang = ""},
 }
 
 ----------------------------- these are the locations where props will be spawned to be picked 

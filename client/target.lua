@@ -52,7 +52,7 @@ if Config.oxtarget then
 				end,
 				
 				canInteract = function ()
-					local item = QBCore.Functions.HasItem('cocaine_lab_key')
+					local item = QBCore.Functions.HasItem('coke_access')
 					return item
 				end
 			},
@@ -107,7 +107,7 @@ if Config.oxtarget then
 				end,
 				
 				canInteract = function ()
-					local item = QBCore.Functions.HasItem('cocaine_lab_key')
+					local item = QBCore.Functions.HasItem('coke_access')
 					return item
 				end
 			},
@@ -152,12 +152,10 @@ end
 	-- cocaine ( Bagging and Cutting is in Cocaine.lua due to globals used :))
 	for k, v in pairs (Config.MakePowder) do 
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
-		 local options = {
-			{	type = "client",	event = "md-drugs:client:makepowder",	icon = "fas fa-sign-in-alt",	label = "chop it up", data = k,  distance = 2.0,
+		local options = {
+			{	type = "client",	event = "wrp-drugs:client:makepowder",	icon = "fas fa-sign-in-alt",	label = "chop it up", data = k,  distance = 2.0,
 				canInteract = function()
-					local item = QBCore.Functions.HasItem('coca_leaf')
-					return item
-				end
+					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 			},
 		}
 		if Config.oxtarget then
@@ -178,7 +176,7 @@ end
 	for k, v in pairs (Config.lysergicacid) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:getlysergic",	icon = "fas fa-sign-in-alt",	label = "stealing", data = k,
+			{	type = "client",	event = "wrp-drugs:client:getlysergic",	icon = "fas fa-sign-in-alt",	label = "stealing", data = k,
 				canInteract = function()
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 			}
@@ -187,7 +185,7 @@ end
 			exports.interact:AddInteraction({
 				coords = v.loc,
 				distance = 3.0, -- optional
-				interactDst = 1.0, -- optional
+				interactDst = 3.0, -- optional
 				id = 'getlysergic', -- needed for removing interactions
 				name = "getlysergic"..k, -- optional
 				options = options
@@ -200,7 +198,7 @@ end
 	for k, v in pairs (Config.diethylamide) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:getdiethylamide",	icon = "fas fa-sign-in-alt",	label = "stealing", data = k,
+			{	type = "client",	event = "wrp-drugs:client:getdiethylamide",	icon = "fas fa-sign-in-alt",	label = "stealing", data = k,
 				canInteract = function()
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 			}
@@ -209,7 +207,7 @@ end
 			exports.interact:AddInteraction({
 				coords = v.loc,
 				distance = 3.0, -- optional
-				interactDst = 1.0, -- optional
+				interactDst = 3.0, -- optional
 				id = 'getdiethylamide', -- needed for removing interactions
 				name = "getdiethylamide"..k, -- optional
 				options = options
@@ -222,7 +220,7 @@ end
 	for k, v in pairs (Config.gettabs) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:buytabs",	icon = "fas fa-sign-in-alt",	label = "Buy Tabs", data = k,
+			{	type = "client",	event = "wrp-drugs:client:buytabs",	icon = "fas fa-sign-in-alt",	label = "Buy Tabs", data = k,
 				canInteract = function()
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 			}
@@ -245,7 +243,7 @@ end
 	for k, v in pairs (Config.dryplant) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:dryplant",	icon = "fas fa-sign-in-alt",	label = "Dry Poppies", data = k,
+			{	type = "client",	event = "wrp-drugs:client:dryplant",	icon = "fas fa-sign-in-alt",	label = "Dry Poppies", data = k,
 				canInteract = function ()
 					local item = QBCore.Functions.HasItem('poppyresin')
 					return item
@@ -269,7 +267,7 @@ end
 	for k, v in pairs (Config.cutheroinone) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:cutheroin",	icon = "fas fa-sign-in-alt",	label = "Cut Heroin", data = k,
+			{	type = "client",	event = "wrp-drugs:client:cutheroin",	icon = "fas fa-sign-in-alt",	label = "Cut Heroin", data = k,
 				canInteract = function()
 					local item1 = QBCore.Functions.HasItem('bakingsoda')
 					local item2 = QBCore.Functions.HasItem('heroin')
@@ -301,7 +299,7 @@ end
 	for k, v in pairs (Config.fillneedle) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:fillneedle",	icon = "fas fa-sign-in-alt",	label = "Fill Needles", data = k,
+			{	type = "client",	event = "wrp-drugs:client:fillneedle",	icon = "fas fa-sign-in-alt",	label = "Fill Needles", data = k,
 				canInteract = function()
 					local item1 = QBCore.Functions.HasItem('needle')
 					local item2 = QBCore.Functions.HasItem('heroinvial')
@@ -334,7 +332,7 @@ end
 	for k, v in pairs (Config.makecrack) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:makecrackone",	icon = "fas fa-sign-in-alt",	label = "Cook Crack", data = k, distance = 2.0,
+			{	type = "client",	event = "wrp-drugs:client:makecrackone",	icon = "fas fa-sign-in-alt",	label = "Cook Crack", data = k, distance = 2.0,
 				canInteract = function()
 					local item1 = QBCore.Functions.HasItem('bakingsoda')
 					local item2 = QBCore.Functions.HasItem('loosecoke')
@@ -366,7 +364,7 @@ end
 	for k, v in pairs (Config.bagcrack) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:bagcrack",	icon = "fas fa-sign-in-alt",	label = "Bag Crack", data = k, distance = 2.0,
+			{	type = "client",	event = "wrp-drugs:client:bagcrack",	icon = "fas fa-sign-in-alt",	label = "Bag Crack", data = k, distance = 2.0,
 				canInteract = function()
 					local item1 = QBCore.Functions.HasItem('empty_weed_bag')
 					local item2 = QBCore.Functions.HasItem('crackrock')
@@ -399,7 +397,7 @@ end
 	for k, v in pairs (Config.FillPrescription) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:fillprescription",	icon = "fas fa-sign-in-alt",	label = "Fill Prescription", data = k,
+			{	type = "client",	event = "wrp-drugs:client:fillprescription",	icon = "fas fa-sign-in-alt",	label = "Fill Prescription", data = k,
 				canInteract = function()
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 			}
@@ -420,7 +418,7 @@ end
 	end
 	-------- oxy runs
 	local options2 = {
-		{	event = "md-drugs:client:getoxytruck",	icon = "fas fa-sign-in-alt",	label = "Pay For Truck",},
+		{	event = "wrp-drugs:client:getoxytruck",	icon = "fas fa-sign-in-alt",	label = "Pay For Truck",},
 	}
 	if Config.oxtarget then
 		exports.interact:AddInteraction({
@@ -437,7 +435,7 @@ end
 	end
 	------------ mescaline
 	local options3 = {
-		{	type = "client",	event = "md-drugs:client:drymescaline",	icon = "fas fa-sign-in-alt",	label = "Dry Out"},
+		{	type = "client",	event = "wrp-drugs:client:drymescaline",	icon = "fas fa-sign-in-alt",	label = "Dry Out"},
 	}
 	if Config.oxtarget then
 		exports.interact:AddInteraction({
@@ -456,7 +454,7 @@ end
 	for k, v in pairs (Config.isosafrole) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:stealisosafrole",	icon = "fas fa-sign-in-alt",	label = "Steal Isosafrole", data = k,
+			{	type = "client",	event = "wrp-drugs:client:stealisosafrole",	icon = "fas fa-sign-in-alt",	label = "Steal Isosafrole", data = k,
 				canInteract = function()
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 			}
@@ -478,7 +476,7 @@ end
 	for k, v in pairs (Config.mdp2p) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:stealmdp2p",	icon = "fas fa-sign-in-alt",	label = "Steal MDP2P", data = k,
+			{	type = "client",	event = "wrp-drugs:client:stealmdp2p",	icon = "fas fa-sign-in-alt",	label = "Steal MDP2P", data = k,
 				canInteract = function()
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 			}
@@ -501,7 +499,7 @@ end
 	for k, v in pairs (Config.rawxtcloc) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{	type = "client",	event = "md-drugs:client:makingrawxtc",	icon = "fas fa-sign-in-alt",	label = "Make Raw XTC", data = k,
+			{	type = "client",	event = "wrp-drugs:client:makingrawxtc",	icon = "fas fa-sign-in-alt",	label = "Make Raw XTC", data = k,
 				canInteract = function()
 					if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end
 			}
@@ -521,7 +519,7 @@ end
 		end
 	end
 	local options4 = {
-		{	type = "client",	event = "md-drugs:client:buypress",	icon = 'fas fa-eye',	label = 'Buy Press',},
+		{	type = "client",	event = "wrp-drugs:client:buypress",	icon = 'fas fa-eye',	label = 'Buy Press',},
 	}
 	if Config.oxtarget then
 		exports.interact:AddInteraction({
@@ -539,7 +537,7 @@ end
 	for k, v in pairs(Config.stamp) do
 		if v.gang == nil or v.gang == '' or v.gang == "" then v.gang = 1 end
 		local options = {
-			{type = "client",   event = "md-drugs:client:stampwhite",   icon = 'fas fa-eye',    label = 'Stamp Pills',	data = k, canInteract = function() if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end },
+			{type = "client",   event = "wrp-drugs:client:stampwhite",   icon = 'fas fa-eye',    label = 'Stamp Pills',	data = k, canInteract = function() if QBCore.Functions.GetPlayerData().gang.name == v.gang or v.gang == 1 then return true end end },
 			
 		}
 	

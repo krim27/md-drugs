@@ -53,7 +53,7 @@ function AddItem(item, amount)
     end
 end
 
-QBCore.Functions.CreateCallback('md-drugs:server:GetCoppers', function(source, cb, args)
+QBCore.Functions.CreateCallback('wrp-drugs:server:GetCoppers', function(source, cb, args)
     local amount = 0
     local players = QBCore.Functions.GetQBPlayers()
     for k, v in pairs(players) do
@@ -74,8 +74,8 @@ CreateThread(function()
     end
 end)
 CreateThread(function()
-    local url = "https://raw.githubusercontent.com/Mustachedom/md-drugs/main/version.txt"
-    local version = GetResourceMetadata('md-drugs', "version" )
+    local url = "https://raw.githubusercontent.com/Mustachedom/wrp-drugs/main/version.txt"
+    local version = GetResourceMetadata('wrp-drugs', "version" )
      PerformHttpRequest(url, function(err, text, headers)
          if (text ~= nil) then
                 print('^2 Your Version:' .. version .. ' | Current Version:' .. text .. '' )  

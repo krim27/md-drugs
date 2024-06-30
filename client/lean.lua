@@ -7,7 +7,7 @@ CreateThread(function()
     FreezeEntityPosition(SyrupLocation, true)
     SetEntityInvincible(SyrupLocation, true)
     local options = {
-        { type = "client", label = "Get Task", icon = "fas fa-eye", event = "md-drugs:client:getsyruplocationtobuy", distance = 2.0},
+        { type = "client", label = "Get Task", icon = "fas fa-eye", event = "wrp-drugs:client:getsyruplocationtobuy", distance = 2.0},
     }
     if Config.oxtarget then
         exports.interact:AddLocalEntityInteraction({
@@ -27,7 +27,7 @@ CreateThread(function()
 end)
 
 
-RegisterNetEvent("md-drugs:client:getsyruplocationtobuy", function() 
+RegisterNetEvent("wrp-drugs:client:getsyruplocationtobuy", function() 
 Notify(Lang.Lean.marked, "success")
 SpawnCarPedChase()
 end)
